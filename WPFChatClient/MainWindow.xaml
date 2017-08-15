@@ -7,6 +7,48 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="350" Width="525">
     <Grid>
-        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="269*"/>
+                <ColumnDefinition Width="248*"/>
+            </Grid.ColumnDefinitions>
+            <ListBox x:Name="listboxMessages" Margin="5,5,18,5"/>
+            <ScrollViewer VerticalScrollBarVisibility="Auto" Margin="2,5,5,5" Grid.Column="1">
+                <ItemsControl x:Name="itemscontrolPanels" Grid.Column="1">
+                    <Border CornerRadius="3" BorderThickness="1" BorderBrush="#FF000030" Margin="3">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="100"/>
+                                <ColumnDefinition Width="132*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            <Label Content="_Login" Target="{Binding ElementName=textboxLogin}" Grid.Row="0"/>
+                            <TextBox x:Name="textboxLogin" Grid.Column="1" Margin="3"/>
+                            <Label Content="_Password" Target="{Binding ElementName=passwordBox}" Grid.Row="1"/>
+                            <PasswordBox  x:Name="passwordBox" Grid.Row="1" Grid.Column="1" Margin="3"/>
+                            <StackPanel Grid.ColumnSpan="2" Margin="3" Orientation="Horizontal" Grid.Row="2">
+                                <Button Content="_Connect" Margin="3" Padding="6 2" />
+                                <Button Content="_Disconnect" Margin="3" Padding="6 2"/>
+                            </StackPanel>
+                        </Grid>
+                    </Border>
+                    <Border CornerRadius="3" BorderThickness="1" BorderBrush="#FF000030" Margin="3">
+                        <StackPanel>
+                            <TextBox Height="150"></TextBox>
+                            <Button Content="_Send" Margin="3"/>
+                        </StackPanel>
+                    </Border>
+                </ItemsControl>
+            </ScrollViewer>
+            <GridSplitter Width="15" Background="#80051080"/>
+        </Grid>
     </Grid>
 </Window>
