@@ -5,6 +5,10 @@ VisualStudioVersion = 15.0.26403.7
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WPFChatClient", "WPFChatClient\WPFChatClient.csproj", "{481DF519-0759-4873-87EF-6BB27B9AD4CF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChatViewModel", "ChatViewModel\ChatViewModel.csproj", "{F5866EA6-6E1B-4E40-9AA6-697C94F47B9C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChatBusinessObjects", "ChatBusinessObjects\ChatBusinessObjects.csproj", "{B2028645-B6C9-49C4-8F59-9B344EE56776}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +19,14 @@ Global
 		{481DF519-0759-4873-87EF-6BB27B9AD4CF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{481DF519-0759-4873-87EF-6BB27B9AD4CF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{481DF519-0759-4873-87EF-6BB27B9AD4CF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F5866EA6-6E1B-4E40-9AA6-697C94F47B9C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F5866EA6-6E1B-4E40-9AA6-697C94F47B9C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F5866EA6-6E1B-4E40-9AA6-697C94F47B9C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F5866EA6-6E1B-4E40-9AA6-697C94F47B9C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B2028645-B6C9-49C4-8F59-9B344EE56776}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B2028645-B6C9-49C4-8F59-9B344EE56776}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B2028645-B6C9-49C4-8F59-9B344EE56776}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B2028645-B6C9-49C4-8F59-9B344EE56776}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
