@@ -19,7 +19,7 @@
             <ListBox x:Name="listboxMessages" Margin="5,5,18,5"/>
             <ScrollViewer VerticalScrollBarVisibility="Auto" Margin="2,5,5,5" Grid.Column="1">
                 <ItemsControl x:Name="itemscontrolPanels" Grid.Column="1">
-                    <Border CornerRadius="3" BorderThickness="1" BorderBrush="#FF000030" Margin="3">
+                    <Border x:Name="borderUser" CornerRadius="3" BorderThickness="1" BorderBrush="#FF000030" Margin="3">
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="100"/>
@@ -40,7 +40,7 @@
                             </StackPanel>
                         </Grid>
                     </Border>
-                    <Border CornerRadius="3" BorderThickness="1" BorderBrush="#FF000030" Margin="3">
+                    <Border x:Name="borderMessage" CornerRadius="3" BorderThickness="1" BorderBrush="#FF000030" Margin="3">
                         <StackPanel>
                             <TextBox Height="150"></TextBox>
                             <Button Content="_Send" Margin="3"/>
