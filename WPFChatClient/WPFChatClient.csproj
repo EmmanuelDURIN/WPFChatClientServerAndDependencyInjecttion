@@ -94,5 +94,15 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ChatBusinessObjects\ChatBusinessObjects.csproj">
+      <Project>{b2028645-b6c9-49c4-8f59-9b344ee56776}</Project>
+      <Name>ChatBusinessObjects</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ChatViewModel\ChatViewModel.csproj">
+      <Project>{f5866ea6-6e1b-4e40-9aa6-697c94f47b9c}</Project>
+      <Name>ChatViewModel</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
