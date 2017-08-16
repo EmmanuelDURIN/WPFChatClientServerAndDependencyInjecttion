@@ -5,8 +5,28 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WPFChatClient"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525">
-    <Grid>
+        Title="Chat Client" Height="400" Width="525">
+    <Window.Resources>
+        <DataTemplate x:Key="ChatMessageTemplate">
+            <Grid Height="60">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="100"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="50"/>
+                </Grid.RowDefinitions>
+                <TextBlock Grid.Column="0" Margin="3" FontSize="16" FontWeight="Bold" 
+                                   TextWrapping="Wrap" Text="{Binding Speaker}" />
+                <TextBlock Grid.Column="1" Margin="3" 
+                                   TextWrapping="Wrap" Text="{Binding EmissionDate,StringFormat=HH:mm:ss}" HorizontalAlignment="Right"/>
+                <TextBlock Grid.ColumnSpan="2" Grid.Row="1" Margin="3" 
+                                   TextWrapping="Wrap" Text="{Binding Content}" />
+            </Grid>
+        </DataTemplate>
+    </Window.Resources>
+    <Grid d:DataContext="{d:DesignData /SampleData/MainWindowViewModelSampleData.xaml}">
         <Grid.RowDefinitions>
             <RowDefinition Height="50"/>
             <RowDefinition Height="*"/>
@@ -16,10 +36,10 @@
                 <ColumnDefinition Width="269*"/>
                 <ColumnDefinition Width="248*"/>
             </Grid.ColumnDefinitions>
-            <ListBox x:Name="listboxMessages" Margin="5,5,18,5"/>
+            <ListBox x:Name="listboxMessages" Margin="5,5,18,5" ItemTemplate="{DynamicResource ChatMessageTemplate}" ItemsSource="{Binding Messages}"/>
             <ScrollViewer VerticalScrollBarVisibility="Auto" Margin="2,5,5,5" Grid.Column="1">
                 <ItemsControl x:Name="itemscontrolPanels" Grid.Column="1">
-                    <Border CornerRadius="3" BorderThickness="1" BorderBrush="#FF000030" Margin="3">
+                    <Border x:Name="borderUser" CornerRadius="3" BorderThickness="1" BorderBrush="#FF000030" Margin="3">
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="100"/>
@@ -31,7 +51,7 @@
                                 <RowDefinition Height="Auto"/>
                             </Grid.RowDefinitions>
                             <Label Content="_Login" Target="{Binding ElementName=textboxLogin}" Grid.Row="0"/>
-                            <TextBox x:Name="textboxLogin" Grid.Column="1" Margin="3"/>
+                            <TextBox x:Name="textboxLogin" Grid.Column="1" Margin="3" Text="{Binding User.Name}"/>
                             <Label Content="_Password" Target="{Binding ElementName=passwordBox}" Grid.Row="1"/>
                             <PasswordBox  x:Name="passwordBox" Grid.Row="1" Grid.Column="1" Margin="3"/>
                             <StackPanel Grid.ColumnSpan="2" Margin="3" Orientation="Horizontal" Grid.Row="2">
@@ -40,9 +60,9 @@
                             </StackPanel>
                         </Grid>
                     </Border>
-                    <Border CornerRadius="3" BorderThickness="1" BorderBrush="#FF000030" Margin="3">
-                        <StackPanel>
-                            <TextBox Height="150"></TextBox>
+                    <Border x:Name="borderMessage" CornerRadius="3" BorderThickness="1" BorderBrush="#FF000030" Margin="3" DataContext="{Binding MessageToSend}">
+                        <StackPanel x:Name="stackPanelMessage">
+                            <TextBox Height="150" Text="{Binding Content}"></TextBox>
                             <Button Content="_Send" Margin="3"/>
                         </StackPanel>
                     </Border>

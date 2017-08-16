@@ -1,0 +1,13 @@
+﻿<ChatViewModel:MainWindowViewModel xmlns:ChatViewModel="clr-namespace:ChatViewModel;assembly=ChatViewModel" xmlns:ChatBusinessObjects="clr-namespace:ChatBusinessObjects;assembly=ChatBusinessObjects">
+	<ChatViewModel:MainWindowViewModel.MessageToSend>
+		<ChatBusinessObjects:ChatMessage Content="Salut à tous" EmissionDate="08/15/2017 18:24:57" Id="44" Speaker="Emmanuel"/>
+	</ChatViewModel:MainWindowViewModel.MessageToSend>
+	<ChatViewModel:MainWindowViewModel.User>
+		<ChatBusinessObjects:User Name="Emmanuel" Password="12345"/>
+	</ChatViewModel:MainWindowViewModel.User>
+    <ChatViewModel:MainWindowViewModel.Messages>
+        <ChatBusinessObjects:ChatMessage Content="Salut à tous" EmissionDate="08/15/2017 18:24:57" Id="44" Speaker="Jean"/>
+        <ChatBusinessObjects:ChatMessage Content="Comment allez vous ?" EmissionDate="08/15/2017 18:22:57" Id="45" Speaker="Sylvie"/>
+        <ChatBusinessObjects:ChatMessage Content="Beaucoup de nouvelles" EmissionDate="08/15/2017 18:26:57" Id="46" Speaker="Jean"/>
+    </ChatViewModel:MainWindowViewModel.Messages>
+</ChatViewModel:MainWindowViewModel>
