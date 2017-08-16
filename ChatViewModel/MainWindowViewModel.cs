@@ -19,6 +19,7 @@ namespace ChatViewModel
     private IChatCommunication chatCommunication = new NullChatCommunication();
     private bool isSending;
     private bool isConnecting;
+    private bool isConnected;
 
     public RelayCommand ConnectCmd { get; set; }
     public RelayCommand DisconnectCmd { get; set; }
@@ -86,12 +87,26 @@ namespace ChatViewModel
         SetProperty(ref messageToSend, value);
       }
     }
+    public bool IsConnected
+    {
+      get { return isConnected; }
+      set
+      {
+        bool hasChanged = SetProperty(ref isConnected, value);
+        if (hasChanged)
+        {
+          ConnectCmd.FireExecuteChanged();
+          DisconnectCmd.FireExecuteChanged();
+        }
+      }
+    }
+   
     public MainWindowViewModel()
     {
       LoadDummyData();
 
-      ConnectCmd = new RelayCommand(execute: Connect, canExecute: o => !AnyCommandRunning); 
-      DisconnectCmd = new RelayCommand(execute: Disconnect, canExecute: o => !AnyCommandRunning);
+      ConnectCmd = new RelayCommand(execute: Connect, canExecute: o => !AnyCommandRunning && ! IsConnected); 
+      DisconnectCmd = new RelayCommand(execute: Disconnect, canExecute: o => !AnyCommandRunning && IsConnected);
       SendMessageCmd = new RelayCommand(execute: SendMessage, canExecute: o => !AnyCommandRunning );
     }
     private void SendMessage(object obj)
@@ -107,12 +122,14 @@ namespace ChatViewModel
     {
       IsConnecting = true;
       chatCommunication.Connect(User.Name, User.Password);
+      IsConnected = true;
       IsConnecting = false;
     }
     private void Disconnect(object obj)
     {
       IsConnecting = true;
       chatCommunication.Disconnect();
+      IsConnected = false;
       IsConnecting = false;
     }	
     private void LoadDummyData()
