@@ -65,7 +65,7 @@
                             <TextBox x:Name="textboxLogin" Grid.Column="1" Margin="3" Text="{Binding User.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding IsDisconnected}"/>
                             <Label Content="_Password" Target="{Binding ElementName=passwordBox}" Grid.Row="1"/>
                             <PasswordBox  x:Name="passwordBox"  Grid.Row="1" Grid.Column="1" Margin="3" PasswordChanged="PasswordBoxPasswordChanged" IsEnabled="{Binding IsDisconnected}"/>
-                            <ProgressBar Height="5" Margin="4 0" Grid.Row="2" Grid.ColumnSpan="2"/>
+                            <ProgressBar Height="5" Margin="4 0" Grid.Row="2" Grid.ColumnSpan="2" IsIndeterminate="{Binding IsConnecting}"/>
                             <StackPanel Grid.ColumnSpan="2" Margin="3" Orientation="Horizontal" Grid.Row="3">
                                 <Button Content="_Connect" Command="{Binding ConnectCmd}" />
                                 <Button Content="_Disconnect" Command="{Binding DisconnectCmd}" />
@@ -75,7 +75,7 @@
                     <Border x:Name="borderMessage"  Style="{DynamicResource itemBorderBrush}">
                         <StackPanel x:Name="stackPanelMessage">
                             <TextBox Height="150" Text="{Binding MessageToSend.Content, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></TextBox>
-                            <ProgressBar Height="5" Margin="4 2"/>
+                            <ProgressBar Height="5" Margin="4 2" IsIndeterminate="{Binding IsSending}"/>
                             <Button Content="_Send" Command="{Binding SendMessageCmd}"/>
                         </StackPanel>
                     </Border>
