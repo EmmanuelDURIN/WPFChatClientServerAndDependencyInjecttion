@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ChatViewModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,9 +21,12 @@ namespace WPFChatClient
   /// </summary>
   public partial class MainWindow : Window
   {
+    private MainWindowViewModel viewModel = new MainWindowViewModel();
+
     public MainWindow()
     {
       InitializeComponent();
+      DataContext = viewModel;
     }
   }
 }
