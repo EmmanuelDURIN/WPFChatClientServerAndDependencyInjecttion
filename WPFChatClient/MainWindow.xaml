@@ -25,6 +25,16 @@
                                    TextWrapping="Wrap" Text="{Binding Content}" />
             </Grid>
         </DataTemplate>
+        <Style TargetType="Button">
+            <Setter Property="Margin" Value="3" />
+            <Setter Property="Padding" Value="6 2" />
+        </Style>
+        <Style TargetType="Border" x:Key="itemBorderBrush">
+            <Setter Property="CornerRadius" Value="3" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="BorderBrush" Value="#FF000030" />
+            <Setter Property="Margin" Value="3" />
+        </Style>
     </Window.Resources>
     <Grid d:DataContext="{d:DesignData /SampleData/MainWindowViewModelSampleData.xaml}">
         <Grid.RowDefinitions>
@@ -39,7 +49,7 @@
             <ListBox x:Name="listboxMessages" Margin="5,5,18,5" ItemTemplate="{DynamicResource ChatMessageTemplate}" ItemsSource="{Binding Messages}"/>
             <ScrollViewer VerticalScrollBarVisibility="Auto" Margin="2,5,5,5" Grid.Column="1">
                 <ItemsControl x:Name="itemscontrolPanels" Grid.Column="1">
-                    <Border x:Name="borderUser" CornerRadius="3" BorderThickness="1" BorderBrush="#FF000030" Margin="3">
+                    <Border x:Name="borderUser" Style="{DynamicResource itemBorderBrush}"  >
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="100"/>
@@ -55,15 +65,15 @@
                             <Label Content="_Password" Target="{Binding ElementName=passwordBox}" Grid.Row="1"/>
                             <PasswordBox  x:Name="passwordBox" Grid.Row="1" Grid.Column="1" Margin="3"/>
                             <StackPanel Grid.ColumnSpan="2" Margin="3" Orientation="Horizontal" Grid.Row="2">
-                                <Button Content="_Connect" Margin="3" Padding="6 2" />
-                                <Button Content="_Disconnect" Margin="3" Padding="6 2"/>
+                                <Button Content="_Connect" />
+                                <Button Content="_Disconnect" />
                             </StackPanel>
                         </Grid>
                     </Border>
-                    <Border x:Name="borderMessage" CornerRadius="3" BorderThickness="1" BorderBrush="#FF000030" Margin="3" DataContext="{Binding MessageToSend}">
+                    <Border x:Name="borderMessage" DataContext="{Binding MessageToSend}" Style="{DynamicResource itemBorderBrush}">
                         <StackPanel x:Name="stackPanelMessage">
                             <TextBox Height="150" Text="{Binding Content}"></TextBox>
-                            <Button Content="_Send" Margin="3"/>
+                            <Button Content="_Send"/>
                         </StackPanel>
                     </Border>
                 </ItemsControl>
