@@ -11,20 +11,21 @@ namespace ChatBusinessLogic
   public class NullChatCommunication : IChatCommunication
   {
     public event Action<ChatMessage> MessageReceived;
-    public void Connect(string userName, string password)
+    public async Task Connect(string userName, string password)
     {
       Task task = Task.Delay(2000);
-      task.Wait();
+      await task;
     }
-    public void Disconnect()
+    public async Task Disconnect()
     {
       Task task = Task.Delay(2000);
-      task.Wait();
+      await task;
+
     }
-    public void SendMessage(ChatMessage message)
+    public async Task SendMessage(ChatMessage message)
     {
       Task task = Task.Delay(2000);
-      task.Wait();
+      await task;
     }
   }
 }

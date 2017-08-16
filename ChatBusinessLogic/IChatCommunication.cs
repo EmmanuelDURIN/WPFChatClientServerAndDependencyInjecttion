@@ -1,5 +1,6 @@
 ﻿using System;
 using ChatBusinessObjects;
+using System.Threading.Tasks;
 
 namespace ChatBusinessLogic
 {
@@ -7,8 +8,8 @@ namespace ChatBusinessLogic
   {
     event Action<ChatMessage> MessageReceived;
 
-    void Connect(string userName, string password);
-    void Disconnect();
-    void SendMessage(ChatMessage message);
+    Task Connect(string userName, string password);
+    Task Disconnect();
+    Task SendMessage(ChatMessage message);
   }
 }

@@ -130,26 +130,26 @@ namespace ChatViewModel
           SendMessageCmd.FireExecuteChanged();
       };
     }
-    private void SendMessage(object obj)
+    private async void SendMessage(object obj)
     {
       IsSending = true;
       MessageToSend.EmissionDate = DateTime.Now;
       MessageToSend.Speaker = User.Name;
-      chatCommunication.SendMessage(MessageToSend);
+      await chatCommunication.SendMessage(MessageToSend);
       MessageToSend.Content = "";
       IsSending = false;
     }
-    private void Connect(object obj)
+    private async void Connect(object obj)
     {
       IsConnecting = true;
-      chatCommunication.Connect(User.Name, User.Password);
+      await chatCommunication.Connect(User.Name, User.Password);
       IsConnected = true;
       IsConnecting = false;
     }
-    private void Disconnect(object obj)
+    private async void Disconnect(object obj)
     {
       IsConnecting = true;
-      chatCommunication.Disconnect();
+      await chatCommunication.Disconnect();
       IsConnected = false;
       IsConnecting = false;
     }	
