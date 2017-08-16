@@ -28,5 +28,10 @@ namespace WPFChatClient
       InitializeComponent();
       DataContext = viewModel;
     }
+
+    private void PasswordBoxPasswordChanged(object sender, RoutedEventArgs e)
+    {
+      viewModel.PasswordChanged(passwordBox.Password);
+    }
   }
 }

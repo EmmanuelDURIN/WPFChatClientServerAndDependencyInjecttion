@@ -25,6 +25,12 @@ namespace ChatViewModel
     public RelayCommand DisconnectCmd { get; set; }
     public RelayCommand SendMessageCmd { get; set; }
 
+    public void PasswordChanged(string password)
+    {
+      User.Password = password;
+      ConnectCmd.FireExecuteChanged();
+    }
+
     public bool IsConnecting
     {
       get { return isConnecting; }
@@ -97,17 +103,32 @@ namespace ChatViewModel
         {
           ConnectCmd.FireExecuteChanged();
           DisconnectCmd.FireExecuteChanged();
+          OnPropertyChanged(nameof(IsDisconnected));
         }
       }
     }
-   
+    public bool IsDisconnected
+    {
+      get { return !isConnected; }
+    }
     public MainWindowViewModel()
     {
       LoadDummyData();
 
-      ConnectCmd = new RelayCommand(execute: Connect, canExecute: o => !AnyCommandRunning && ! IsConnected); 
+      ConnectCmd = new RelayCommand(execute: Connect, canExecute: o => !AnyCommandRunning && ! IsConnected && !String.IsNullOrWhiteSpace(User.Name) && !String.IsNullOrWhiteSpace(User.Password)); 
       DisconnectCmd = new RelayCommand(execute: Disconnect, canExecute: o => !AnyCommandRunning && IsConnected);
-      SendMessageCmd = new RelayCommand(execute: SendMessage, canExecute: o => !AnyCommandRunning );
+      SendMessageCmd = new RelayCommand(execute: SendMessage, canExecute: o => !AnyCommandRunning && !String.IsNullOrWhiteSpace(MessageToSend.Content));
+
+      User.PropertyChanged += (o, args) => 
+        {
+            if ( args.PropertyName == nameof(User.Name) || args.PropertyName == nameof(User.Password))
+              ConnectCmd.FireExecuteChanged();
+        };
+      MessageToSend.PropertyChanged += (o, args) =>
+      {
+          if (args.PropertyName == nameof(ChatMessage.Content) )
+          SendMessageCmd.FireExecuteChanged();
+      };
     }
     private void SendMessage(object obj)
     {
