@@ -11,7 +11,7 @@ namespace ChatViewModel
 {
   public class MainWindowViewModel : BindableBase
   {
-    private ObservableCollection<ChatMessage> messages;
+    private ObservableCollection<ChatMessage> messages = new ObservableCollection<ChatMessage>();
     private User user;
     private ChatMessage messageToSend;
 
@@ -39,6 +39,25 @@ namespace ChatViewModel
       set
       {
         SetProperty(ref messageToSend, value);
+      }
+    }
+    public MainWindowViewModel()
+    {
+      LoadDummyData();
+    }
+    private void LoadDummyData()
+    {
+      var newMessages = Enumerable.Range(1, 10)
+        .Select(i => new ChatMessage
+        {
+          Speaker = "Emmanuel",
+          Content = "Hello" + i,
+          EmissionDate = DateTime.Now.AddDays(-10).AddMinutes(i)
+        }
+        );
+      foreach (var message in newMessages)
+      {
+        messages.Add(message);
       }
     }
   }
