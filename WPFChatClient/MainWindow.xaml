@@ -29,7 +29,10 @@
                 <ColumnDefinition Width="269*"/>
                 <ColumnDefinition Width="248*"/>
             </Grid.ColumnDefinitions>
-            <ItemsControl x:Name="itemsControlMessages" BorderThickness="1" BorderBrush="#204080" Margin="5,5,18,5" Style="{DynamicResource roundedItemsControlStyle}"/>
+            <ScrollViewer VerticalScrollBarVisibility="Auto" Margin="5,5,18,5">
+                <ItemsControl x:Name="itemsControlMessages" BorderThickness="1" BorderBrush="#204080" Style="{DynamicResource roundedItemsControlStyle}"/>
+            </ScrollViewer>
+            
             <ScrollViewer VerticalScrollBarVisibility="Auto" Margin="2,5,5,5" Grid.Column="1">
                 <ItemsControl x:Name="itemscontrolPanels" Grid.Column="1">
                     <Border x:Name="borderUser" CornerRadius="3" BorderThickness="1" BorderBrush="#FF000030" Margin="3">
