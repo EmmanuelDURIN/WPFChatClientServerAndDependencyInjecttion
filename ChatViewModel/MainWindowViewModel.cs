@@ -4,6 +4,8 @@ using Model;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel.Composition;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,12 +13,15 @@ using ViewModel.Commands;
 
 namespace ChatViewModel
 {
+  [Export(nameof(MainWindowViewModel))]
+  //[Export("MainWindowViewModel")]
   public class MainWindowViewModel : BindableBase
   {
     private ObservableCollection<ChatMessage> messages = new ObservableCollection<ChatMessage>();
     private User user = new User();
     private ChatMessage messageToSend = new ChatMessage();
-    private IChatCommunication chatCommunication = new NullChatCommunication();
+    [Import]
+    private IChatCommunication chatCommunication = null;
     private bool isSending;
     private bool isConnecting;
     private bool isConnected;

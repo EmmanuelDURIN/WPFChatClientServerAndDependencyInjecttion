@@ -5,10 +5,10 @@
     <MinimumVisualStudioVersion>14.0</MinimumVisualStudioVersion>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{DC5E04E8-25FC-4624-B05A-01A80F6BB9A4}</ProjectGuid>
+    <ProjectGuid>{7021B43F-7100-475F-84D7-484406280F12}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <RootNamespace>ChatBusinessLogic</RootNamespace>
-    <AssemblyName>ChatBusinessLogic</AssemblyName>
+    <RootNamespace>NullCommunicationLib</RootNamespace>
+    <AssemblyName>NullCommunicationLib</AssemblyName>
     <DefaultLanguage>fr-FR</DefaultLanguage>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{786C830F-07A1-408B-BD7F-6EE04809D6DB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -38,14 +38,23 @@
     <!-- A reference to the entire .NET Framework is automatically included -->
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="IChatCommunication.cs" />
+    <Compile Include="NullChatCommunication.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ChatBusinessLogic\ChatBusinessLogic.csproj">
+      <Project>{dc5e04e8-25fc-4624-b05a-01a80f6bb9a4}</Project>
+      <Name>ChatBusinessLogic</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ChatBusinessObjects\ChatBusinessObjects.csproj">
       <Project>{b2028645-b6c9-49c4-8f59-9b344ee56776}</Project>
       <Name>ChatBusinessObjects</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System.ComponentModel.Composition">
+      <HintPath>..\..\..\..\..\..\..\..\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.6\System.ComponentModel.Composition.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
 </Project>
