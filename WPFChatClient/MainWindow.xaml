@@ -6,6 +6,19 @@
         xmlns:local="clr-namespace:WPFChatClient"
         mc:Ignorable="d"
         Title="MainWindow" Height="350" Width="525">
+    <Window.Resources>
+        <Style x:Key="roundedItemsControlStyle" TargetType="{x:Type ItemsControl}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ItemsControl}">
+                        <Border CornerRadius="3" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}" SnapsToDevicePixels="true">
+                            <ItemsPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="50"/>
@@ -16,7 +29,7 @@
                 <ColumnDefinition Width="269*"/>
                 <ColumnDefinition Width="248*"/>
             </Grid.ColumnDefinitions>
-            <ListBox x:Name="listboxMessages" Margin="5,5,18,5"/>
+            <ItemsControl x:Name="listboxMessages" BorderThickness="1" BorderBrush="#204080" Margin="5,5,18,5" Style="{DynamicResource roundedItemsControlStyle}"/>
             <ScrollViewer VerticalScrollBarVisibility="Auto" Margin="2,5,5,5" Grid.Column="1">
                 <ItemsControl x:Name="itemscontrolPanels" Grid.Column="1">
                     <Border x:Name="borderUser" CornerRadius="3" BorderThickness="1" BorderBrush="#FF000030" Margin="3">
