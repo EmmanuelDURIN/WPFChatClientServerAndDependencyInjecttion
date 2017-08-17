@@ -35,6 +35,17 @@
             <Setter Property="BorderBrush" Value="#FF000030" />
             <Setter Property="Margin" Value="3" />
         </Style>
+        <Style x:Key="roundedItemsControlStyle" TargetType="{x:Type ItemsControl}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ItemsControl}">
+                        <Border CornerRadius="3" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}" SnapsToDevicePixels="true">
+                            <ItemsPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
     </Window.Resources>
     <Grid d:DataContext="{d:DesignData /SampleData/MainWindowViewModelSampleData.xaml}">
         <Grid.RowDefinitions>
@@ -46,7 +57,10 @@
                 <ColumnDefinition Width="269*"/>
                 <ColumnDefinition Width="248*"/>
             </Grid.ColumnDefinitions>
-            <ListBox x:Name="listboxMessages" Margin="5,5,18,5" ItemTemplate="{DynamicResource ChatMessageTemplate}" ItemsSource="{Binding Messages}"/>
+            <ScrollViewer VerticalScrollBarVisibility="Auto" Margin="5,5,18,5">
+                <ItemsControl x:Name="itemsControlMessages" BorderThickness="1" BorderBrush="#204080" Style="{DynamicResource roundedItemsControlStyle}"
+                              ItemTemplate="{DynamicResource ChatMessageTemplate}" ItemsSource="{Binding Messages}" />
+            </ScrollViewer>
             <ScrollViewer VerticalScrollBarVisibility="Auto" Margin="2,5,5,5" Grid.Column="1">
                 <ItemsControl x:Name="itemscontrolPanels" Grid.Column="1">
                     <Border x:Name="borderUser" Style="{DynamicResource itemBorderBrush}"  >
