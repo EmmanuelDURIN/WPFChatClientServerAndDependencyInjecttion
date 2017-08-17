@@ -1,11 +1,16 @@
-﻿using ChatViewModel;
+﻿using ChatBusinessLogic;
+using ChatViewModel;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.Composition;
 using System.ComponentModel.Composition.Hosting;
 using System.ComponentModel.Composition.Primitives;
+using System.ComponentModel.Composition.Registration;
+using System.Composition.Convention;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Reflection;
 
 namespace WPFChatClient
 {
@@ -29,10 +34,29 @@ namespace WPFChatClient
     }
     private static ComposablePartCatalog CreateCatalog()
     {
+      var builder = new RegistrationBuilder();
+      builder.ForType<NullChatCommunication>()
+          .Export<IChatCommunication>()
+          ;//.SetCreationPolicy(CreationPolicy.Shared);
+
+      builder.ForType<MainWindowViewModel>()
+          .Export<MainWindowViewModel>() 
+          .ImportProperties<IChatCommunication>(p => p.Name == nameof(MainWindowViewModel.ChatCommunication))
+          ;//.SetCreationPolicy(CreationPolicy.Shared);
+      builder.ForType<MainWindow>()
+        .Export()   
+        .ImportProperties(CheckPropName);
+
       AggregateCatalog aggregateCatalog = new AggregateCatalog();
-      // Chargement de toutes les DLL dans le répertoire courant
-      aggregateCatalog.Catalogs.Add(new DirectoryCatalog(path: @".\", searchPattern: "*.dll"));
+
+      var catalog = new TypeCatalog(new[] { typeof(MainWindow), typeof(NullChatCommunication), typeof(MainWindowViewModel) }, builder);
+      aggregateCatalog.Catalogs.Add(catalog);
       return aggregateCatalog;
+    }
+
+    private static bool CheckPropName(PropertyInfo p)
+    {
+      return p.Name == "ViewModel";
     }
     #endregion Singleton Management Region
   }

@@ -13,14 +13,11 @@ using ViewModel.Commands;
 
 namespace ChatViewModel
 {
-  [Export(nameof(MainWindowViewModel))]
-  //[Export("MainWindowViewModel")]
-  public class MainWindowViewModel : BindableBase
+  public class MainWindowViewModel : BindableBase, IPartImportsSatisfiedNotification
   {
     private ObservableCollection<ChatMessage> messages = new ObservableCollection<ChatMessage>();
     private User user = new User();
     private ChatMessage messageToSend = new ChatMessage();
-    [Import]
     private IChatCommunication chatCommunication = null;
     private bool isSending;
     private bool isConnecting;
@@ -116,6 +113,9 @@ namespace ChatViewModel
     {
       get { return !isConnected; }
     }
+
+    public IChatCommunication ChatCommunication { get => chatCommunication; set => chatCommunication = value; }
+
     public MainWindowViewModel()
     {
       LoadDummyData();
@@ -172,6 +172,10 @@ namespace ChatViewModel
       {
         messages.Add(message);
       }
+    }
+
+    public void OnImportsSatisfied()
+    {
     }
   }
 }

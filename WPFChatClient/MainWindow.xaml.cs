@@ -18,25 +18,33 @@ using System.Windows.Shapes;
 
 namespace WPFChatClient
 {
-  public partial class MainWindow : Window
+  public partial class MainWindow : Window, IPartImportsSatisfiedNotification
   {
-    [Import(nameof(MainWindowViewModel))]
-  //  [Import("MainWindowViewModel")]
     private MainWindowViewModel viewModel = null;
+    public MainWindowViewModel ViewModel { get => viewModel; set => viewModel = value; }
 
     public MainWindow()
     {
       InitializeComponent();
       CompositionContainer container = WPFContainer.Instance;
-      //Lazy<MainWindowViewModel>  lazyVM = container.GetExport<MainWindowViewModel>(nameof(MainWindowViewModel));
-      //viewModel = lazyVM.Value;
-      //viewModel = new MainWindowViewModel();
-      container.ComposeParts(this);
+      Lazy<MainWindowViewModel> lazyVM = container.GetExport<MainWindowViewModel>();
+      viewModel = lazyVM.Value;
+      // Marche pas sans l'import sauf si on demande la Window selon :
+      //CompositionContainer container = WPFContainer.Instance;
+      //Lazy<MainWindow> lazyWindow = container.GetExport<MainWindow>();
+      //var mainWindow = lazyWindow.Value;
+
+      //container.ComposeParts(this);
+      //container.SatisfyImportsOnce(this);
       DataContext = viewModel;
     }
     private void PasswordBoxPasswordChanged(object sender, RoutedEventArgs e)
     {
       viewModel.PasswordChanged(passwordBox.Password);
+    }
+    public void OnImportsSatisfied()
+    {
+      System.Diagnostics.Debug.WriteLine($"ViewModel : {ViewModel}");
     }
   }
 }
