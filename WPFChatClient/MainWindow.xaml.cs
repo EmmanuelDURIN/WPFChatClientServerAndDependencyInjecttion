@@ -29,13 +29,15 @@ namespace WPFChatClient
       CompositionContainer container = WPFContainer.Instance;
       Lazy<MainWindowViewModel> lazyVM = container.GetExport<MainWindowViewModel>();
       viewModel = lazyVM.Value;
-      // Marche pas sans l'import sauf si on demande la Window selon :
+
+      // ComposeParts et SatisfyImportsOnce ne marchent pas sans [Import] sur MainWindowViewModel
+      // sauf si on instancie laisse MEF instancier la Window :
       //CompositionContainer container = WPFContainer.Instance;
       //Lazy<MainWindow> lazyWindow = container.GetExport<MainWindow>();
       //var mainWindow = lazyWindow.Value;
-
       //container.ComposeParts(this);
       //container.SatisfyImportsOnce(this);
+
       DataContext = viewModel;
     }
     private void PasswordBoxPasswordChanged(object sender, RoutedEventArgs e)

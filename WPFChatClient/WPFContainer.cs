@@ -37,19 +37,16 @@ namespace WPFChatClient
       var builder = new RegistrationBuilder();
       builder.ForType<NullChatCommunication>()
           .Export<IChatCommunication>()
-          ;//.SetCreationPolicy(CreationPolicy.Shared);
+          .SetCreationPolicy(CreationPolicy.Shared);
 
       builder.ForType<MainWindowViewModel>()
           .Export<MainWindowViewModel>() 
           .ImportProperties<IChatCommunication>(p => p.Name == nameof(MainWindowViewModel.ChatCommunication))
-          ;//.SetCreationPolicy(CreationPolicy.Shared);
-      builder.ForType<MainWindow>()
-        .Export()   
-        .ImportProperties(CheckPropName);
+          .SetCreationPolicy(CreationPolicy.NonShared);
 
       AggregateCatalog aggregateCatalog = new AggregateCatalog();
 
-      var catalog = new TypeCatalog(new[] { typeof(MainWindow), typeof(NullChatCommunication), typeof(MainWindowViewModel) }, builder);
+      var catalog = new TypeCatalog(new[] { typeof(NullChatCommunication), typeof(MainWindowViewModel) }, builder);
       aggregateCatalog.Catalogs.Add(catalog);
       return aggregateCatalog;
     }
