@@ -27,16 +27,13 @@ namespace WPFChatClient
     {
       InitializeComponent();
       CompositionContainer container = WPFContainer.Instance;
-      Lazy<MainWindowViewModel> lazyVM = container.GetExport<MainWindowViewModel>();
-      viewModel = lazyVM.Value;
+      
+      // instanciation paresseuse ou ...
+      //Lazy<MainWindowViewModel> lazyVM = container.GetExport<MainWindowViewModel>();
+      //viewModel = lazyVM.Value;
 
-      // ComposeParts et SatisfyImportsOnce ne marchent pas sans [Import] sur MainWindowViewModel
-      // sauf si on instancie laisse MEF instancier la Window :
-      //CompositionContainer container = WPFContainer.Instance;
-      //Lazy<MainWindow> lazyWindow = container.GetExport<MainWindow>();
-      //var mainWindow = lazyWindow.Value;
-      //container.ComposeParts(this);
-      //container.SatisfyImportsOnce(this);
+      // ... instanciation agressive
+      viewModel = container.GetExportedValue<MainWindowViewModel>();
 
       DataContext = viewModel;
     }

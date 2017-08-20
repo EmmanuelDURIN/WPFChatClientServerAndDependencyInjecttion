@@ -40,7 +40,10 @@ namespace WPFChatClient
           .SetCreationPolicy(CreationPolicy.Shared);
 
       builder.ForType<MainWindowViewModel>()
-          .Export<MainWindowViewModel>() 
+          .Export() 
+          // équivalent à :
+          // .Export<MainWindowViewModel>()
+          // sauf que c'est implicite
           .ImportProperties<IChatCommunication>(p => p.Name == nameof(MainWindowViewModel.ChatCommunication))
           .SetCreationPolicy(CreationPolicy.NonShared);
 
