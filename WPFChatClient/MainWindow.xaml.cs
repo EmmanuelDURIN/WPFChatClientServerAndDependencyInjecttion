@@ -32,9 +32,11 @@ namespace WPFChatClient
       //Lazy<MainWindowViewModel> lazyVM = container.GetExport<MainWindowViewModel>();
       //viewModel = lazyVM.Value;
 
-      // ... instanciation agressive
+      // ... instanciation agressive :
       viewModel = container.GetExportedValue<MainWindowViewModel>();
 
+      LoggerClient loggerClient = container.GetExportedValue<LoggerClient>();
+      loggerClient.Logger.Warn("Hello");
       DataContext = viewModel;
     }
     private void PasswordBoxPasswordChanged(object sender, RoutedEventArgs e)
