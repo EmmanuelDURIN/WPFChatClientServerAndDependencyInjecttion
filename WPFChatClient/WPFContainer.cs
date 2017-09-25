@@ -30,7 +30,7 @@ namespace WPFChatClient
       {
         if (instance == null)
         {
-          instance = new WPFContainer(CreateCatalog());
+          instance = new WPFContainer(CreateCatalogWithMEF2());
         }
         return instance;
       }
@@ -39,7 +39,7 @@ namespace WPFChatClient
     {
       return null;
     }
-    private static ComposablePartCatalog CreateCatalog()
+    private static ComposablePartCatalog CreateCatalogWithMEF2()
     {
       var builder = new RegistrationBuilder();
       builder.ForType<NullChatCommunication>()
@@ -47,7 +47,7 @@ namespace WPFChatClient
           .SetCreationPolicy(CreationPolicy.Shared);
 
       builder.ForType<MainWindowViewModel>()
-          .Export() 
+          .Export()
           // équivalent à :
           // .Export<MainWindowViewModel>()
           // sauf que le type est implicite
@@ -60,23 +60,23 @@ namespace WPFChatClient
 
       builder.ForType<LoggerClient>()
           .Export()
-          .ImportProperties<Func<Type,ILog>>(CheckLoggerFactoryName);
-      
+          .ImportProperties<Func<Type, ILog>>(CheckLoggerFactoryName);
+
       AggregateCatalog aggregateCatalog = new AggregateCatalog();
 
-      var catalog = new TypeCatalog(new[] { typeof(NullChatCommunication), typeof(MainWindowViewModel), typeof(LoggerClient), typeof(LoggerFactory) }, builder);
+      //var catalog = new TypeCatalog(new[] { typeof(NullChatCommunication), typeof(MainWindowViewModel), typeof(LoggerClient), typeof(LoggerFactory) }, builder);
 
-      aggregateCatalog.Catalogs.Add(catalog);
-      //var catalog1 = new AssemblyCatalog(typeof(NullChatCommunication).Assembly);
-      //var catalog2 = new AssemblyCatalog(typeof(MainWindowViewModel).Assembly);
-      //var catalog3 = new AssemblyCatalog(typeof(LoggerClient).Assembly);
-      //var catalog4 = new AssemblyCatalog(typeof(LoggerFactory).Assembly);
-      ////, typeof(MainWindowViewModel), typeof(LoggerClient), typeof(LoggerFactory) }, builder);
+      //aggregateCatalog.Catalogs.Add(catalog);
+      var catalog1 = new AssemblyCatalog(typeof(NullChatCommunication).Assembly, builder);
+      var catalog2 = new AssemblyCatalog(typeof(MainWindowViewModel).Assembly, builder);
+      var catalog3 = new AssemblyCatalog(typeof(LoggerClient).Assembly, builder);
+      var catalog4 = new AssemblyCatalog(typeof(LoggerFactory).Assembly, builder);
+      //, typeof(MainWindowViewModel), typeof(LoggerClient), typeof(LoggerFactory) }, builder);
 
-      //aggregateCatalog.Catalogs.Add(catalog1);
-      //aggregateCatalog.Catalogs.Add(catalog2);
-      //aggregateCatalog.Catalogs.Add(catalog3);
-      //aggregateCatalog.Catalogs.Add(catalog4);
+      aggregateCatalog.Catalogs.Add(catalog1);
+      aggregateCatalog.Catalogs.Add(catalog2);
+      aggregateCatalog.Catalogs.Add(catalog3);
+      aggregateCatalog.Catalogs.Add(catalog4);
 
 
       ////A essayer :
