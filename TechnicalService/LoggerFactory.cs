@@ -9,6 +9,10 @@ namespace TechnicalService
 {
   public class LoggerFactory
   {
+    static LoggerFactory()
+    {
+      log4net.Config.XmlConfigurator.Configure(new FileInfo("log4net.config"));
+    }
     public Func<Type, ILog> MakeLogger
     {
       get

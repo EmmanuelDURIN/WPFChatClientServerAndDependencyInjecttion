@@ -167,6 +167,7 @@ namespace ChatViewModel
     {
       IsConnecting = true;
       await chatCommunication.Connect(User.Name, User.Password);
+      Logger.Info("User connected");
       IsConnected = true;
       IsConnecting = false;
     }
@@ -174,6 +175,7 @@ namespace ChatViewModel
     {
       IsConnecting = true;
       await chatCommunication.Disconnect();
+      Logger.Info("User disconnected");
       IsConnected = false;
       IsConnecting = false;
     }	
