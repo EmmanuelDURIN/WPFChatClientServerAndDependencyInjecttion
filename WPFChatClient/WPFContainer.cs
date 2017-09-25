@@ -14,6 +14,7 @@ using System.Reflection;
 using log4net.Core;
 using log4net;
 using System.Diagnostics;
+using TechnicalService;
 
 namespace WPFChatClient
 {
@@ -54,59 +55,25 @@ namespace WPFChatClient
           .ImportProperties<IChatCommunication>(p => p.Name == nameof(MainWindowViewModel.ChatCommunication))
           .SetCreationPolicy(CreationPolicy.NonShared);
 
+      Predicate<PropertyInfo> propNameCondition = p => p.Name == nameof(LoggerFactory.MakeLogger);
       builder.ForType<LoggerFactory>()
           .Export()
-          .ExportProperties<Func<Type, ILog>>(CheckLoggerFactoryProperty);
+          .ExportProperties<Func<Type, ILog>>( propNameCondition );
 
-      builder.ForType<LoggerClient>()
-          .Export()
-          .ImportProperties<Func<Type, ILog>>(CheckLoggerFactoryName);
+      builder.ForTypesMatching( type => type.Name.ToLower().EndsWith("viewmodel"))
+          .ImportProperties<Func<Type, ILog>>(propNameCondition);
 
       AggregateCatalog aggregateCatalog = new AggregateCatalog();
 
-      //var catalog = new TypeCatalog(new[] { typeof(NullChatCommunication), typeof(MainWindowViewModel), typeof(LoggerClient), typeof(LoggerFactory) }, builder);
+      var nullCommLibCatalog = new AssemblyCatalog(typeof(NullChatCommunication).Assembly, builder);
+      var viewmodelCatalog = new AssemblyCatalog(typeof(MainWindowViewModel).Assembly, builder);
+      var technicalServiceCatalog = new AssemblyCatalog(typeof(LoggerFactory).Assembly, builder);
 
-      //aggregateCatalog.Catalogs.Add(catalog);
-      var catalog1 = new AssemblyCatalog(typeof(NullChatCommunication).Assembly, builder);
-      var catalog2 = new AssemblyCatalog(typeof(MainWindowViewModel).Assembly, builder);
-      var catalog3 = new AssemblyCatalog(typeof(LoggerClient).Assembly, builder);
-      var catalog4 = new AssemblyCatalog(typeof(LoggerFactory).Assembly, builder);
-      //, typeof(MainWindowViewModel), typeof(LoggerClient), typeof(LoggerFactory) }, builder);
+      aggregateCatalog.Catalogs.Add(nullCommLibCatalog);
+      aggregateCatalog.Catalogs.Add(viewmodelCatalog);
+      aggregateCatalog.Catalogs.Add(technicalServiceCatalog);
 
-      aggregateCatalog.Catalogs.Add(catalog1);
-      aggregateCatalog.Catalogs.Add(catalog2);
-      aggregateCatalog.Catalogs.Add(catalog3);
-      aggregateCatalog.Catalogs.Add(catalog4);
-
-
-      ////A essayer :
-      //var conventionBuilder = new ConventionBuilder();
-      //  .ForTypesMatching(AllTypes)
-      //  .ImportProperties(CheckLoggerFactoryProperty);
-      //var conventionCatalog = new TypeCatalog(new[] { typeof(NullChatCommunication), typeof(MainWindowViewModel), typeof(LoggerClient), typeof(LoggerFactory) }, conventionBuilder);
-
-      //aggregateCatalog.Catalogs.Add(conventionCatalog);
       return aggregateCatalog;
-    }
-
-    private static bool AllTypes(Type inspectedType)
-    {
-      return true;
-    }
-
-    private static bool CheckLoggerFactoryProperty(PropertyInfo p)
-    {
-      return p.Name == "MakeLogger";
-    }
-
-    private static bool CheckLoggerFactoryName(PropertyInfo p)
-    {
-      return p.Name == "MakeLogger";
-    }
-
-    private static bool CheckPropName(PropertyInfo p)
-    {
-      return p.Name == "ViewModel";
     }
     #endregion Singleton Management Region
   }

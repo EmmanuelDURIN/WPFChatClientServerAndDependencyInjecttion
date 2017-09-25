@@ -77,7 +77,6 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="LoggerClient.cs" />
-    <Compile Include="LoggerFactory.cs" />
     <Compile Include="WPFContainer.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -125,20 +124,24 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ChatBusinessLogic\ChatBusinessLogic.csproj">
-      <Project>{dc5e04e8-25fc-4624-b05a-01a80f6bb9a4}</Project>
+      <Project>{ABBF9BB0-BA55-4EF5-9E9C-D11A87AC8AB0}</Project>
       <Name>ChatBusinessLogic</Name>
     </ProjectReference>
     <ProjectReference Include="..\ChatBusinessObjects\ChatBusinessObjects.csproj">
-      <Project>{b2028645-b6c9-49c4-8f59-9b344ee56776}</Project>
+      <Project>{909b3516-528b-42d7-a206-5ca4222ff63e}</Project>
       <Name>ChatBusinessObjects</Name>
     </ProjectReference>
     <ProjectReference Include="..\ChatViewModel\ChatViewModel.csproj">
-      <Project>{f5866ea6-6e1b-4e40-9aa6-697c94f47b9c}</Project>
+      <Project>{ba363b4a-87a3-4ac7-a1a9-96363a6999f1}</Project>
       <Name>ChatViewModel</Name>
     </ProjectReference>
     <ProjectReference Include="..\NullCommunicationLib\NullCommunicationLib.csproj">
-      <Project>{7021b43f-7100-475f-84d7-484406280f12}</Project>
+      <Project>{b45cf810-2303-4a0b-ba83-22aee58ae0d8}</Project>
       <Name>NullCommunicationLib</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TechnicalService\TechnicalService.csproj">
+      <Project>{15748809-8679-4ac4-a9aa-f99aba8b12b1}</Project>
+      <Name>TechnicalService</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

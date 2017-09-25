@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+﻿using System.Resources;
+using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
@@ -13,14 +14,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyCopyright("Copyright ©  2017")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
-
-// L'affectation de la valeur false à ComVisible rend les types invisibles dans cet assembly
-// aux composants COM. Si vous devez accéder à un type dans cet assembly à partir de
-// COM, affectez la valeur true à l'attribut ComVisible sur ce type.
-[assembly: ComVisible(false)]
-
-// Le GUID suivant est pour l'ID de la typelib si ce projet est exposé à COM
-[assembly: Guid("909b3516-528b-42d7-a206-5ca4222ff63e")]
+[assembly: NeutralResourcesLanguage("fr")]
 
 // Les informations de version pour un assembly se composent des quatre valeurs suivantes :
 //

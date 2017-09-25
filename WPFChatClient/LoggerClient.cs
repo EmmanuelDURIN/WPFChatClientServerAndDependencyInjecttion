@@ -8,22 +8,22 @@ using System.Text;
 
 namespace WPFChatClient
 {
-  public class LoggerClient
-  {
-    public ILog Logger { get; set; }
+  //public class LoggerClient
+  //{
+  //  public ILog Logger { get; set; }
 
-    private Func<Type, ILog> makeLogger;
-    public Func<Type, ILog> MakeLogger
-    {
-      get
-      {
-        return makeLogger;
-      }
-      set
-      {
-        makeLogger = value;
-        Logger = MakeLogger(this.GetType());
-      }
-    }
-  }
+  //  private Func<Type, ILog> makeLogger;
+  //  public Func<Type, ILog> MakeLogger
+  //  {
+  //    get
+  //    {
+  //      return makeLogger;
+  //    }
+  //    set
+  //    {
+  //      makeLogger = value;
+  //      Logger = MakeLogger(this.GetType());
+  //    }
+  //  }
+  //}
 }

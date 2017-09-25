@@ -1,10 +1,10 @@
 ﻿using ChatBusinessLogic;
 using ChatBusinessObjects;
-using log4net;
 using Model;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel.Composition;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
@@ -13,27 +13,8 @@ using ViewModel.Commands;
 
 namespace ChatViewModel
 {
-  public class MainWindowViewModel : BindableBase
+  public class MainWindowViewModel : BindableBase, IPartImportsSatisfiedNotification
   {
-
-    #region LoggerImport
-    public ILog Logger { get; set; }
-
-    private Func<Type, ILog> makeLogger;
-    public Func<Type, ILog> MakeLogger
-    {
-      get
-      {
-        return makeLogger;
-      }
-      set
-      {
-        makeLogger = value;
-        Logger = MakeLogger(this.GetType());
-      }
-    } 
-    #endregion
-
     private ObservableCollection<ChatMessage> messages = new ObservableCollection<ChatMessage>();
     private User user = new User();
     private ChatMessage messageToSend = new ChatMessage();
@@ -191,6 +172,10 @@ namespace ChatViewModel
       {
         messages.Add(message);
       }
+    }
+
+    public void OnImportsSatisfied()
+    {
     }
   }
 }

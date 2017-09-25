@@ -35,8 +35,6 @@ namespace WPFChatClient
       // ... instanciation agressive :
       viewModel = container.GetExportedValue<MainWindowViewModel>();
 
-      LoggerClient loggerClient = container.GetExportedValue<LoggerClient>();
-      loggerClient.Logger.Warn("Hello");
       DataContext = viewModel;
     }
     private void PasswordBoxPasswordChanged(object sender, RoutedEventArgs e)
