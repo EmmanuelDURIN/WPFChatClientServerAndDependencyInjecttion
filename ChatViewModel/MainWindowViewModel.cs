@@ -15,37 +15,40 @@ namespace ChatViewModel
 {
   public class MainWindowViewModel : BindableBase
   {
-
-    #region LoggerImport
-    public ILog Logger { get; set; }
-
-    private Func<Type, ILog> makeLogger;
-    public Func<Type, ILog> MakeLogger
-    {
-      get
-      {
-        return makeLogger;
-      }
-      set
-      {
-        makeLogger = value;
-        Logger = MakeLogger(this.GetType());
-      }
-    } 
-    #endregion
-
-    private ObservableCollection<ChatMessage> messages = new ObservableCollection<ChatMessage>();
     private User user = new User();
     private ChatMessage messageToSend = new ChatMessage();
     private IChatCommunication chatCommunication = null;
     private bool isSending;
     private bool isConnecting;
     private bool isConnected;
+    private ObservableCollection<ChatMessage> messages = new ObservableCollection<ChatMessage>();
+
+    public ILog Logger { get; set; }
 
     public RelayCommand ConnectCmd { get; set; }
     public RelayCommand DisconnectCmd { get; set; }
     public RelayCommand SendMessageCmd { get; set; }
 
+    public MainWindowViewModel(IChatCommunication chatCommunication)
+    {
+      this.chatCommunication = chatCommunication;
+      LoadDummyData();
+
+      ConnectCmd = new RelayCommand(execute: Connect, canExecute: o => !AnyCommandRunning && !IsConnected && !String.IsNullOrWhiteSpace(User.Name) && !String.IsNullOrWhiteSpace(User.Password));
+      DisconnectCmd = new RelayCommand(execute: Disconnect, canExecute: o => !AnyCommandRunning && IsConnected);
+      SendMessageCmd = new RelayCommand(execute: SendMessage, canExecute: o => !AnyCommandRunning && !String.IsNullOrWhiteSpace(MessageToSend.Content));
+
+      User.PropertyChanged += (o, args) =>
+      {
+        if (args.PropertyName == nameof(User.Name) || args.PropertyName == nameof(User.Password))
+          ConnectCmd.FireExecuteChanged();
+      };
+      MessageToSend.PropertyChanged += (o, args) =>
+      {
+        if (args.PropertyName == nameof(ChatMessage.Content))
+          SendMessageCmd.FireExecuteChanged();
+      };
+    }
     public void PasswordChanged(string password)
     {
       User.Password = password;
@@ -135,25 +138,6 @@ namespace ChatViewModel
 
     public IChatCommunication ChatCommunication { get => chatCommunication; set => chatCommunication = value; }
 
-    public MainWindowViewModel()
-    {
-      LoadDummyData();
-
-      ConnectCmd = new RelayCommand(execute: Connect, canExecute: o => !AnyCommandRunning && ! IsConnected && !String.IsNullOrWhiteSpace(User.Name) && !String.IsNullOrWhiteSpace(User.Password)); 
-      DisconnectCmd = new RelayCommand(execute: Disconnect, canExecute: o => !AnyCommandRunning && IsConnected);
-      SendMessageCmd = new RelayCommand(execute: SendMessage, canExecute: o => !AnyCommandRunning && !String.IsNullOrWhiteSpace(MessageToSend.Content));
-
-      User.PropertyChanged += (o, args) => 
-        {
-            if ( args.PropertyName == nameof(User.Name) || args.PropertyName == nameof(User.Password))
-              ConnectCmd.FireExecuteChanged();
-        };
-      MessageToSend.PropertyChanged += (o, args) =>
-      {
-          if (args.PropertyName == nameof(ChatMessage.Content) )
-          SendMessageCmd.FireExecuteChanged();
-      };
-    }
     private async void SendMessage(object obj)
     {
       IsSending = true;
