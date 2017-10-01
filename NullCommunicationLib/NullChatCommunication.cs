@@ -10,7 +10,7 @@ namespace ChatBusinessLogic
 {
   public class NullChatCommunication : IClientChatCommunication
   {
-    public event Action<ChatMessage> MessageReceived;
+    public Action<ChatMessage> MessageReceived { get; set; }
     public async Task Connect(string userName, string password)
     {
       Task task = Task.Delay(2000);

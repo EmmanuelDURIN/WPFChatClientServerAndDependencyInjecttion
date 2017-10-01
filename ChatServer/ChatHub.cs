@@ -11,8 +11,6 @@ namespace ChatServer
 {
   public class ChatHub : Hub<IChatCommunication>, IChatCommunication
   {
-    public event Action<ChatMessage> MessageReceived;
-
     public Task Connect(string userName, string password)
     {
       // TODO autre exercice
