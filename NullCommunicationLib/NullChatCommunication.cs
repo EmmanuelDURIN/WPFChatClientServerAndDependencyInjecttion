@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace ChatBusinessLogic
 {
-  public class NullChatCommunication : IChatCommunication
+  public class NullChatCommunication : IClientChatCommunication
   {
     public event Action<ChatMessage> MessageReceived;
     public async Task Connect(string userName, string password)

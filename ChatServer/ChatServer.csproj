@@ -284,6 +284,16 @@
     <None Include="packages.config" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ChatBusinessLogic\ChatBusinessLogic.csproj">
+      <Project>{abbf9bb0-ba55-4ef5-9e9c-d11a87ac8ab0}</Project>
+      <Name>ChatBusinessLogic</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ChatBusinessObjects\ChatBusinessObjects.csproj">
+      <Project>{909b3516-528b-42d7-a206-5ca4222ff63e}</Project>
+      <Name>ChatBusinessObjects</Name>
+    </ProjectReference>
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

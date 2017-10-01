@@ -8,6 +8,7 @@ using System.Collections.ObjectModel;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using ViewModel.Commands;
 
@@ -17,27 +18,31 @@ namespace ChatViewModel
   {
     private User user = new User();
     private ChatMessage messageToSend = new ChatMessage();
-    private IChatCommunication chatCommunication = null;
+    private IClientChatCommunication chatCommunication = null;
     private bool isSending;
     private bool isConnecting;
     private bool isConnected;
     private ObservableCollection<ChatMessage> messages = new ObservableCollection<ChatMessage>();
-
+    private TaskScheduler uiTaskScheduler;
     public ILog Logger { get; set; }
 
     public RelayCommand ConnectCmd { get; set; }
     public RelayCommand DisconnectCmd { get; set; }
     public RelayCommand SendMessageCmd { get; set; }
 
-    public MainWindowViewModel(IChatCommunication chatCommunication)
+    public MainWindowViewModel(IClientChatCommunication chatCommunication)
     {
-      this.chatCommunication = chatCommunication;
+      uiTaskScheduler = TaskScheduler.FromCurrentSynchronizationContext();
+      // Code préexistant
+      this.ChatCommunication = chatCommunication;
       LoadDummyData();
 
       ConnectCmd = new RelayCommand(execute: Connect, canExecute: o => !AnyCommandRunning && !IsConnected && !String.IsNullOrWhiteSpace(User.Name) && !String.IsNullOrWhiteSpace(User.Password));
       DisconnectCmd = new RelayCommand(execute: Disconnect, canExecute: o => !AnyCommandRunning && IsConnected);
       SendMessageCmd = new RelayCommand(execute: SendMessage, canExecute: o => !AnyCommandRunning && !String.IsNullOrWhiteSpace(MessageToSend.Content));
 
+      User.Name = "X";
+      User.Password = "Y";
       User.PropertyChanged += (o, args) =>
       {
         if (args.PropertyName == nameof(User.Name) || args.PropertyName == nameof(User.Password))
@@ -61,7 +66,8 @@ namespace ChatViewModel
       set
       {
         bool hasChanged = SetProperty(ref isConnecting, value);
-        if (hasChanged) { 
+        if (hasChanged)
+        {
           OnPropertyChanged(nameof(AnyCommandRunning));
           ConnectCmd.FireExecuteChanged();
           DisconnectCmd.FireExecuteChanged();
@@ -87,7 +93,8 @@ namespace ChatViewModel
     }
     private bool AnyCommandRunning
     {
-      get {
+      get
+      {
         return isSending || isConnecting;
       }
     }
@@ -136,7 +143,26 @@ namespace ChatViewModel
       get { return !isConnected; }
     }
 
-    public IChatCommunication ChatCommunication { get => chatCommunication; set => chatCommunication = value; }
+    public IClientChatCommunication ChatCommunication
+    {
+      get => chatCommunication;
+      set
+      {
+        chatCommunication = value;
+        // Abonnement  à l'événement MessageReceived 
+        // et retour sur le thread graphique en cas de réception de message
+        chatCommunication.MessageReceived = msg =>
+        {
+          Task.Factory.StartNew( state => {
+            messages.Insert(0, msg);
+          },
+          state : null, 
+          cancellationToken : CancellationToken.None, 
+          creationOptions : TaskCreationOptions.None, 
+          scheduler:uiTaskScheduler);
+        };
+      }
+    }
 
     private async void SendMessage(object obj)
     {
@@ -162,7 +188,7 @@ namespace ChatViewModel
       Logger.Info("User disconnected");
       IsConnected = false;
       IsConnecting = false;
-    }	
+    }
     private void LoadDummyData()
     {
       var newMessages = Enumerable.Range(1, 10)

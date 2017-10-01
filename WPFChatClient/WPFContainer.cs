@@ -11,6 +11,7 @@ using log4net;
 using System.Diagnostics;
 using Autofac;
 using TechnicalService;
+using SignalRChatClient;
 
 namespace WPFChatClient
 {
@@ -19,8 +20,8 @@ namespace WPFChatClient
     public static IContainer CreateContainer()
     {
       var builder = new ContainerBuilder();
-      builder.RegisterInstance(new NullChatCommunication())
-             .As<IChatCommunication>();
+      builder.RegisterInstance(new ChatClient())
+             .As<IClientChatCommunication>();
       builder.RegisterType<MainWindowViewModel>();
       builder.RegisterModule<LoggingModule>();
       IContainer container = builder.Build();

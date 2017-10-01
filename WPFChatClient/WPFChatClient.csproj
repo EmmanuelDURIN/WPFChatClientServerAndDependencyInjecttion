@@ -140,9 +140,9 @@
       <Project>{ba363b4a-87a3-4ac7-a1a9-96363a6999f1}</Project>
       <Name>ChatViewModel</Name>
     </ProjectReference>
-    <ProjectReference Include="..\NullCommunicationLib\NullCommunicationLib.csproj">
-      <Project>{b45cf810-2303-4a0b-ba83-22aee58ae0d8}</Project>
-      <Name>NullCommunicationLib</Name>
+    <ProjectReference Include="..\SignalRChatClient\SignalRChatClient.csproj">
+      <Project>{10278fc0-3848-4cb6-87e6-7bf94ee16fa8}</Project>
+      <Name>SignalRChatClient</Name>
     </ProjectReference>
     <ProjectReference Include="..\TechnicalService\TechnicalService.csproj">
       <Project>{15748809-8679-4ac4-a9aa-f99aba8b12b1}</Project>
