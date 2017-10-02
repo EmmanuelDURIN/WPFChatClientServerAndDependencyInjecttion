@@ -13,18 +13,15 @@ namespace ChatBusinessLogic
     public event Action<ChatMessage> MessageReceived;
     public void Connect(string userName, string password)
     {
-      Task task = Task.Delay(2000);
-      task.Wait();
+      Thread.Sleep(2000);
     }
     public void Disconnect()
     {
-      Task task = Task.Delay(2000);
-      task.Wait();
+      Thread.Sleep(2000);
     }
     public void SendMessage(ChatMessage message)
     {
-      Task task = Task.Delay(2000);
-      task.Wait();
+      Thread.Sleep(2000);
     }
   }
 }
