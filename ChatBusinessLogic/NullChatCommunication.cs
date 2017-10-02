@@ -11,14 +11,14 @@ namespace ChatBusinessLogic
   public class NullChatCommunication : IChatCommunication
   {
     public event Action<ChatMessage> MessageReceived;
-    public async Task Connect(string userName, string password)
+    public async Task Connect(string userName, string password, CancellationToken token)
     {
-      Task task = Task.Delay(2000);
+      Task task = Task.Delay(2000, token);
       await task;
     }
-    public async Task Disconnect()
+    public async Task Disconnect(CancellationToken token)
     {
-      Task task = Task.Delay(2000);
+      Task task = Task.Delay(2000, token);
       await task;
     }
     public async Task SendMessage(ChatMessage message)

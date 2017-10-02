@@ -83,6 +83,7 @@
                             <StackPanel Grid.ColumnSpan="2" Margin="3" Orientation="Horizontal" Grid.Row="3">
                                 <Button Content="_Connect" Command="{Binding ConnectCmd}" />
                                 <Button Content="_Disconnect" Command="{Binding DisconnectCmd}" />
+                                <Button Content="_Cancel" Command="{Binding CancelConnectCmd}" />
                             </StackPanel>
                         </Grid>
                     </Border>
