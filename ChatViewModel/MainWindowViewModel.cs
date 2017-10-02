@@ -35,7 +35,6 @@ namespace ChatViewModel
       uiTaskScheduler = TaskScheduler.FromCurrentSynchronizationContext();
       // Code préexistant
       this.ChatCommunication = chatCommunication;
-      LoadDummyData();
 
       ConnectCmd = new RelayCommand(execute: Connect, canExecute: o => !AnyCommandRunning && !IsConnected && !String.IsNullOrWhiteSpace(User.Name) && !String.IsNullOrWhiteSpace(User.Password));
       DisconnectCmd = new RelayCommand(execute: Disconnect, canExecute: o => !AnyCommandRunning && IsConnected);
@@ -75,7 +74,6 @@ namespace ChatViewModel
         }
       }
     }
-
     public bool IsSending
     {
       get { return isSending; }
@@ -188,21 +186,6 @@ namespace ChatViewModel
       Logger.Info("User disconnected");
       IsConnected = false;
       IsConnecting = false;
-    }
-    private void LoadDummyData()
-    {
-      var newMessages = Enumerable.Range(1, 10)
-        .Select(i => new ChatMessage
-        {
-          Speaker = "Emmanuel",
-          Content = "Hello" + i,
-          EmissionDate = DateTime.Now.AddDays(-10).AddMinutes(i)
-        }
-        );
-      foreach (var message in newMessages)
-      {
-        messages.Add(message);
-      }
     }
   }
 }
