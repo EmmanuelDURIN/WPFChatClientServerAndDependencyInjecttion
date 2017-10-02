@@ -4,34 +4,26 @@ using Model;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel.Composition;
-using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 using ViewModel.Commands;
 
 namespace ChatViewModel
 {
-  [Export(nameof(MainWindowViewModel))]
-  //[Export("MainWindowViewModel")]
   public class MainWindowViewModel : BindableBase
   {
     private ObservableCollection<ChatMessage> messages = new ObservableCollection<ChatMessage>();
     private User user = new User();
     private ChatMessage messageToSend = new ChatMessage();
-    [Import]
-    private IChatCommunication chatCommunication = null;
+    private IChatCommunication chatCommunication = new NullChatCommunication();
     private bool isSending;
     private bool isConnecting;
     private bool isConnected;
-    private CancellationTokenSource connectionCts;
 
     public RelayCommand ConnectCmd { get; set; }
     public RelayCommand DisconnectCmd { get; set; }
     public RelayCommand SendMessageCmd { get; set; }
-    public RelayCommand CancelConnectCmd { get; set; }
 
     public void PasswordChanged(string password)
     {
@@ -45,13 +37,11 @@ namespace ChatViewModel
       set
       {
         bool hasChanged = SetProperty(ref isConnecting, value);
-        if (hasChanged)
-        {
+        if (hasChanged) { 
           OnPropertyChanged(nameof(AnyCommandRunning));
           ConnectCmd.FireExecuteChanged();
           DisconnectCmd.FireExecuteChanged();
           SendMessageCmd.FireExecuteChanged();
-          CancelConnectCmd.FireExecuteChanged();
         }
       }
     }
@@ -73,8 +63,7 @@ namespace ChatViewModel
     }
     private bool AnyCommandRunning
     {
-      get
-      {
+      get {
         return isSending || isConnecting;
       }
     }
@@ -126,71 +115,44 @@ namespace ChatViewModel
     {
       LoadDummyData();
 
-      ConnectCmd = new RelayCommand(execute: Connect, canExecute: o => !AnyCommandRunning && !IsConnected && !String.IsNullOrWhiteSpace(User.Name) && !String.IsNullOrWhiteSpace(User.Password));
+      ConnectCmd = new RelayCommand(execute: Connect, canExecute: o => !AnyCommandRunning && ! IsConnected && !String.IsNullOrWhiteSpace(User.Name) && !String.IsNullOrWhiteSpace(User.Password)); 
       DisconnectCmd = new RelayCommand(execute: Disconnect, canExecute: o => !AnyCommandRunning && IsConnected);
       SendMessageCmd = new RelayCommand(execute: SendMessage, canExecute: o => !AnyCommandRunning && !String.IsNullOrWhiteSpace(MessageToSend.Content));
-      CancelConnectCmd = new RelayCommand(execute: CancelConnect, canExecute: o => IsConnecting);
 
-      User.PropertyChanged += (o, args) =>
+      User.PropertyChanged += (o, args) => 
         {
-          if (args.PropertyName == nameof(User.Name) || args.PropertyName == nameof(User.Password))
-            ConnectCmd.FireExecuteChanged();
+            if ( args.PropertyName == nameof(User.Name) || args.PropertyName == nameof(User.Password))
+              ConnectCmd.FireExecuteChanged();
         };
       MessageToSend.PropertyChanged += (o, args) =>
       {
-        if (args.PropertyName == nameof(ChatMessage.Content))
+          if (args.PropertyName == nameof(ChatMessage.Content) )
           SendMessageCmd.FireExecuteChanged();
       };
     }
-    private async void SendMessage(object obj)
+    private void SendMessage(object obj)
     {
       IsSending = true;
       MessageToSend.EmissionDate = DateTime.Now;
       MessageToSend.Speaker = User.Name;
-      await chatCommunication.SendMessage(MessageToSend);
+      chatCommunication.SendMessage(MessageToSend);
       MessageToSend.Content = "";
       IsSending = false;
     }
-    private async void Connect(object obj)
+    private void Connect(object obj)
     {
       IsConnecting = true;
-      connectionCts = new CancellationTokenSource();
-      try
-      {
-        await chatCommunication.Connect(User.Name, User.Password, connectionCts.Token);
-        IsConnected = true;
-      }
-      catch (TaskCanceledException)
-      {
-        System.Diagnostics.Debug.WriteLine("Cancellation");
-      }
-      finally
-      {
-        IsConnecting = false;
-      }
+      chatCommunication.Connect(User.Name, User.Password);
+      IsConnected = true;
+      IsConnecting = false;
     }
-    private async void Disconnect(object obj)
+    private void Disconnect(object obj)
     {
       IsConnecting = true;
-      connectionCts = new CancellationTokenSource();
-      try
-      {
-        await chatCommunication.Disconnect(connectionCts.Token);
-        IsConnected = false;
-      }
-      catch (TaskCanceledException)
-      {
-        System.Diagnostics.Debug.WriteLine("Cancellation");
-      }
-      finally
-      {
-        IsConnecting = false;
-      }
-    }
-    private void CancelConnect(object obj)
-    {
-      connectionCts.Cancel(throwOnFirstException: false);
-    }
+      chatCommunication.Disconnect();
+      IsConnected = false;
+      IsConnecting = false;
+    }	
     private void LoadDummyData()
     {
       var newMessages = Enumerable.Range(1, 10)
