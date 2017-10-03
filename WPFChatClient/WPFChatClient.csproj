@@ -82,6 +82,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Converters\BooleanToColorConverter.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -124,11 +125,11 @@
       <Name>ChatBusinessLogic</Name>
     </ProjectReference>
     <ProjectReference Include="..\ChatBusinessObjects\ChatBusinessObjects.csproj">
-      <Project>{b2028645-b6c9-49c4-8f59-9b344ee56776}</Project>
+      <Project>{79ba8629-6731-4163-8271-ec01c364196f}</Project>
       <Name>ChatBusinessObjects</Name>
     </ProjectReference>
     <ProjectReference Include="..\ChatViewModel\ChatViewModel.csproj">
-      <Project>{f5866ea6-6e1b-4e40-9aa6-697c94f47b9c}</Project>
+      <Project>{5f75323c-427d-4166-bac2-9522174ba75d}</Project>
       <Name>ChatViewModel</Name>
     </ProjectReference>
     <ProjectReference Include="..\NullCommunicationLib\NullCommunicationLib.csproj">
@@ -138,7 +139,7 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>cd $(OutDir)
+    <PostBuildEvent>cd $(TargetDir)
 copy /Y $(SolutionDir)NullCommunicationLib\$(OutDir)NullCommunicationLib.dll</PostBuildEvent>
   </PropertyGroup>
 </Project>

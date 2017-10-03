@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 
 namespace ChatBusinessLogic
 {
+  [Export(typeof(IChatCommunication))]
   public class NullChatCommunication : IChatCommunication
   {
     public event Action<ChatMessage> MessageReceived;
