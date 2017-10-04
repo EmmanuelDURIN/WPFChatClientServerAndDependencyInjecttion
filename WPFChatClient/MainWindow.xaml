@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WPFChatClient"
         mc:Ignorable="d"
-		Title="Chat Client Application" Height="372" Width="525">
+		Title="Chat Client Application" Height="420" Width="525">
     <Window.Resources>
         <DataTemplate x:Key="ChatMessageTemplate">
             <Grid Height="60">

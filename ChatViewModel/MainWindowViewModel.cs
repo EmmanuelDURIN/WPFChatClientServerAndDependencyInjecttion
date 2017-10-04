@@ -103,6 +103,7 @@ namespace ChatViewModel
         {
           ConnectCmd.FireExecuteChanged();
           DisconnectCmd.FireExecuteChanged();
+          SendMessageCmd.FireExecuteChanged();
           OnPropertyChanged(nameof(IsDisconnected));
         }
       }
@@ -117,7 +118,7 @@ namespace ChatViewModel
 
       ConnectCmd = new RelayCommand(execute: Connect, canExecute: o => !AnyCommandRunning && ! IsConnected && !String.IsNullOrWhiteSpace(User.Name) && !String.IsNullOrWhiteSpace(User.Password)); 
       DisconnectCmd = new RelayCommand(execute: Disconnect, canExecute: o => !AnyCommandRunning && IsConnected);
-      SendMessageCmd = new RelayCommand(execute: SendMessage, canExecute: o => !AnyCommandRunning && !String.IsNullOrWhiteSpace(MessageToSend.Content));
+      SendMessageCmd = new RelayCommand(execute: SendMessage, canExecute: o => !AnyCommandRunning && !String.IsNullOrWhiteSpace(MessageToSend.Content) && IsConnected);
 
       User.PropertyChanged += (o, args) => 
         {
