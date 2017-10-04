@@ -37,7 +37,8 @@ namespace ChatViewModel
       set
       {
         bool hasChanged = SetProperty(ref isConnecting, value);
-        if (hasChanged) { 
+        if (hasChanged)
+        {
           OnPropertyChanged(nameof(AnyCommandRunning));
           ConnectCmd.FireExecuteChanged();
           DisconnectCmd.FireExecuteChanged();
@@ -63,7 +64,8 @@ namespace ChatViewModel
     }
     private bool AnyCommandRunning
     {
-      get {
+      get
+      {
         return isSending || isConnecting;
       }
     }
@@ -103,6 +105,7 @@ namespace ChatViewModel
         {
           ConnectCmd.FireExecuteChanged();
           DisconnectCmd.FireExecuteChanged();
+          SendMessageCmd.FireExecuteChanged();
           OnPropertyChanged(nameof(IsDisconnected));
         }
       }
@@ -115,18 +118,18 @@ namespace ChatViewModel
     {
       LoadDummyData();
 
-      ConnectCmd = new RelayCommand(execute: Connect, canExecute: o => !AnyCommandRunning && ! IsConnected && !String.IsNullOrWhiteSpace(User.Name) && !String.IsNullOrWhiteSpace(User.Password)); 
+      ConnectCmd = new RelayCommand(execute: Connect, canExecute: o => !AnyCommandRunning && !IsConnected && !String.IsNullOrWhiteSpace(User.Name) && !String.IsNullOrWhiteSpace(User.Password));
       DisconnectCmd = new RelayCommand(execute: Disconnect, canExecute: o => !AnyCommandRunning && IsConnected);
-      SendMessageCmd = new RelayCommand(execute: SendMessage, canExecute: o => !AnyCommandRunning && !String.IsNullOrWhiteSpace(MessageToSend.Content));
+      SendMessageCmd = new RelayCommand(execute: SendMessage, canExecute: o => !AnyCommandRunning && !String.IsNullOrWhiteSpace(MessageToSend.Content) && IsConnected);
 
-      User.PropertyChanged += (o, args) => 
+      User.PropertyChanged += (o, args) =>
         {
-            if ( args.PropertyName == nameof(User.Name) || args.PropertyName == nameof(User.Password))
-              ConnectCmd.FireExecuteChanged();
+          if (args.PropertyName == nameof(User.Name) || args.PropertyName == nameof(User.Password))
+            ConnectCmd.FireExecuteChanged();
         };
       MessageToSend.PropertyChanged += (o, args) =>
       {
-          if (args.PropertyName == nameof(ChatMessage.Content) )
+        if (args.PropertyName == nameof(ChatMessage.Content))
           SendMessageCmd.FireExecuteChanged();
       };
     }
@@ -152,7 +155,7 @@ namespace ChatViewModel
       await chatCommunication.Disconnect();
       IsConnected = false;
       IsConnecting = false;
-    }	
+    }
     private void LoadDummyData()
     {
       var newMessages = Enumerable.Range(1, 10)
