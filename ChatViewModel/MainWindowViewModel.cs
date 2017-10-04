@@ -112,6 +112,7 @@ namespace ChatViewModel
         {
           ConnectCmd.FireExecuteChanged();
           DisconnectCmd.FireExecuteChanged();
+          SendMessageCmd.FireExecuteChanged();
           OnPropertyChanged(nameof(IsDisconnected));
         }
       }
@@ -123,15 +124,15 @@ namespace ChatViewModel
 
     public IChatCommunication ChatCommunication { get => chatCommunication; set => chatCommunication = value; }
 
-	public MainWindowViewModel(IChatCommunication chatCommunication)
+    public MainWindowViewModel(IChatCommunication chatCommunication)
     {
       this.chatCommunication = chatCommunication;
       LoadDummyData();
 
       ConnectCmd = new RelayCommand(execute: Connect, canExecute: o => !AnyCommandRunning && !IsConnected && !String.IsNullOrWhiteSpace(User.Name) && !String.IsNullOrWhiteSpace(User.Password));
       DisconnectCmd = new RelayCommand(execute: Disconnect, canExecute: o => !AnyCommandRunning && IsConnected);
-      SendMessageCmd = new RelayCommand(execute: SendMessage, canExecute: o => !AnyCommandRunning && !String.IsNullOrWhiteSpace(MessageToSend.Content));
-	  CancelConnectCmd = new RelayCommand(execute: CancelConnect, canExecute: o => IsConnecting);
+      SendMessageCmd = new RelayCommand(execute: SendMessage, canExecute: o => !AnyCommandRunning && !String.IsNullOrWhiteSpace(MessageToSend.Content) && IsConnected);
+      CancelConnectCmd = new RelayCommand(execute: CancelConnect, canExecute: o => IsConnecting);
 
       User.PropertyChanged += (o, args) =>
       {
@@ -144,26 +145,6 @@ namespace ChatViewModel
           SendMessageCmd.FireExecuteChanged();
       };
     }
-    // public MainWindowViewModel()
-    // {
-      // LoadDummyData();
-
-      // ConnectCmd = new RelayCommand(execute: Connect, canExecute: o => !AnyCommandRunning && !IsConnected && !String.IsNullOrWhiteSpace(User.Name) && !String.IsNullOrWhiteSpace(User.Password));
-      // DisconnectCmd = new RelayCommand(execute: Disconnect, canExecute: o => !AnyCommandRunning && IsConnected);
-      // SendMessageCmd = new RelayCommand(execute: SendMessage, canExecute: o => !AnyCommandRunning && !String.IsNullOrWhiteSpace(MessageToSend.Content));
-      // CancelConnectCmd = new RelayCommand(execute: CancelConnect, canExecute: o => IsConnecting);
-
-      // User.PropertyChanged += (o, args) =>
-        // {
-          // if (args.PropertyName == nameof(User.Name) || args.PropertyName == nameof(User.Password))
-            // ConnectCmd.FireExecuteChanged();
-        // };
-      // MessageToSend.PropertyChanged += (o, args) =>
-      // {
-        // if (args.PropertyName == nameof(ChatMessage.Content))
-          // SendMessageCmd.FireExecuteChanged();
-      // };
-    // }
     private async void SendMessage(object obj)
     {
       IsSending = true;

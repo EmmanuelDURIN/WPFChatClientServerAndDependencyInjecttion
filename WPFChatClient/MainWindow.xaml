@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:WPFChatClient"
         xmlns:Converters="clr-namespace:WPFChatClient.Converters" x:Class="WPFChatClient.MainWindow"
         mc:Ignorable="d"
-		Title="Chat Client Application" Height="372" Width="525">
+		Title="Chat Client Application" Height="420" Width="525">
     <Window.Resources>
         <Converters:BooleanToColorConverter x:Key="booleanToColorConverter" TrueColor="#FF00C000" FalseColor="#FFC00000"/>
         <DataTemplate x:Key="ChatMessageTemplate">
