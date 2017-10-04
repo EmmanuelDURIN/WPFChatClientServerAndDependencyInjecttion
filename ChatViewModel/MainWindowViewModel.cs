@@ -24,12 +24,17 @@ namespace ChatViewModel
     private bool isConnected;
     private ObservableCollection<ChatMessage> messages = new ObservableCollection<ChatMessage>();
     private TaskScheduler uiTaskScheduler;
+=======
+>>>>>>> AutoFacAsIoC
     public ILog Logger { get; set; }
+    private CancellationTokenSource connectionCts;
 
     public RelayCommand ConnectCmd { get; set; }
     public RelayCommand DisconnectCmd { get; set; }
     public RelayCommand SendMessageCmd { get; set; }
+    public RelayCommand CancelConnectCmd { get; set; }
 
+<<<<<<< HEAD
     public MainWindowViewModel(IClientChatCommunication chatCommunication)
     {
       uiTaskScheduler = TaskScheduler.FromCurrentSynchronizationContext();
@@ -39,6 +44,7 @@ namespace ChatViewModel
       ConnectCmd = new RelayCommand(execute: Connect, canExecute: o => !AnyCommandRunning && !IsConnected && !String.IsNullOrWhiteSpace(User.Name) && !String.IsNullOrWhiteSpace(User.Password));
       DisconnectCmd = new RelayCommand(execute: Disconnect, canExecute: o => !AnyCommandRunning && IsConnected);
       SendMessageCmd = new RelayCommand(execute: SendMessage, canExecute: o => !AnyCommandRunning && !String.IsNullOrWhiteSpace(MessageToSend.Content));
+      CancelConnectCmd = new RelayCommand(execute: CancelConnect, canExecute: o => IsConnecting);
 
       User.Name = "X";
       User.Password = "Y";
@@ -71,6 +77,7 @@ namespace ChatViewModel
           ConnectCmd.FireExecuteChanged();
           DisconnectCmd.FireExecuteChanged();
           SendMessageCmd.FireExecuteChanged();
+          CancelConnectCmd.FireExecuteChanged();
         }
       }
     }
@@ -161,7 +168,6 @@ namespace ChatViewModel
         };
       }
     }
-
     private async void SendMessage(object obj)
     {
       IsSending = true;
@@ -174,18 +180,59 @@ namespace ChatViewModel
     private async void Connect(object obj)
     {
       IsConnecting = true;
-      await chatCommunication.Connect(User.Name, User.Password);
-      Logger.Info("User connected");
-      IsConnected = true;
-      IsConnecting = false;
+      connectionCts = new CancellationTokenSource();
+      try
+      {
+        await chatCommunication.Connect(User.Name, User.Password, connectionCts.Token);
+        IsConnected = true;
+      }
+      catch (TaskCanceledException)
+      {
+        System.Diagnostics.Debug.WriteLine("Cancellation");
+      }
+      finally
+      {
+        IsConnecting = false;
+      }
     }
     private async void Disconnect(object obj)
     {
       IsConnecting = true;
-      await chatCommunication.Disconnect();
-      Logger.Info("User disconnected");
-      IsConnected = false;
-      IsConnecting = false;
+      connectionCts = new CancellationTokenSource();
+      try
+      {
+        await chatCommunication.Disconnect(connectionCts.Token);
+		Logger.Info("User disconnected");
+		IsConnected = false;
+      }
+      catch (TaskCanceledException)
+      {
+        System.Diagnostics.Debug.WriteLine("Cancellation");
+      }
+      finally
+      {
+        IsConnecting = false;
+      }
+    }
+    private void CancelConnect(object obj)
+    {
+      connectionCts.Cancel(throwOnFirstException: false);
+    }
+    private void LoadDummyData()
+    {
+      var newMessages = Enumerable.Range(1, 10)
+        .Select(i => new ChatMessage
+        {
+          Speaker = "Emmanuel",
+          Content = "Hello" + i,
+          EmissionDate = DateTime.Now.AddDays(-10).AddMinutes(i)
+        }
+        );
+      foreach (var message in newMessages)
+      {
+        messages.Add(message);
+      }
+>>>>>>> AutoFacAsIoC
     }
   }
 }
