@@ -25,7 +25,7 @@ namespace ChatViewModel
     private ObservableCollection<ChatMessage> messages = new ObservableCollection<ChatMessage>();
     private TaskScheduler uiTaskScheduler;
     public ILog Logger { get; set; }
-   
+
     public RelayCommand ConnectCmd { get; set; }
     public RelayCommand DisconnectCmd { get; set; }
     public RelayCommand SendMessageCmd { get; set; }
@@ -38,8 +38,8 @@ namespace ChatViewModel
 
       ConnectCmd = new RelayCommand(execute: Connect, canExecute: o => !AnyCommandRunning && !IsConnected && !String.IsNullOrWhiteSpace(User.Name) && !String.IsNullOrWhiteSpace(User.Password));
       DisconnectCmd = new RelayCommand(execute: Disconnect, canExecute: o => !AnyCommandRunning && IsConnected);
-      SendMessageCmd = new RelayCommand(execute: SendMessage, canExecute: o => !AnyCommandRunning && !String.IsNullOrWhiteSpace(MessageToSend.Content) && IsConnected );
-     
+      SendMessageCmd = new RelayCommand(execute: SendMessage, canExecute: o => !AnyCommandRunning && !String.IsNullOrWhiteSpace(MessageToSend.Content) && IsConnected);
+
       User.Name = "X";
       User.Password = "Y";
       User.PropertyChanged += (o, args) =>
@@ -152,13 +152,16 @@ namespace ChatViewModel
         // et retour sur le thread graphique en cas de réception de message
         chatCommunication.MessageReceived = msg =>
         {
-          Task.Factory.StartNew( state => {
-            messages.Insert(0, msg);
+          Task.Factory.StartNew(state =>
+          {
+            messages.Insert(0,
+              new ChatMessageViewModel(msg, isMyMessage : false)
+              );
           },
-          state : null, 
-          cancellationToken : CancellationToken.None, 
-          creationOptions : TaskCreationOptions.None, 
-          scheduler:uiTaskScheduler);
+          state: null,
+          cancellationToken: CancellationToken.None,
+          creationOptions: TaskCreationOptions.None,
+          scheduler: uiTaskScheduler);
         };
       }
     }
@@ -167,6 +170,9 @@ namespace ChatViewModel
       IsSending = true;
       MessageToSend.EmissionDate = DateTime.Now;
       MessageToSend.Speaker = User.Name;
+
+      messages.Insert(0, new ChatMessageViewModel(MessageToSend, isMyMessage : true));
+
       await chatCommunication.SendMessage(MessageToSend);
       MessageToSend.Content = "";
       IsSending = false;
@@ -194,8 +200,8 @@ namespace ChatViewModel
       try
       {
         await chatCommunication.Disconnect();
-		Logger.Info("User disconnected");
-		IsConnected = false;
+        Logger.Info("User disconnected");
+        IsConnected = false;
       }
       catch (TaskCanceledException)
       {

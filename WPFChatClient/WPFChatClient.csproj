@@ -79,7 +79,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="BooleanToColorConverter.cs" />
+    <Compile Include="Converters\BooleanToLeftOrRightMarginConverter.cs" />
+    <Compile Include="Converters\BooleanToColorConverter.cs" />
     <Compile Include="WPFContainer.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>

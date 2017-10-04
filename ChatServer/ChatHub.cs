@@ -11,6 +11,10 @@ namespace ChatServer
 {
   public class ChatHub : Hub<IChatCommunication>, IChatCommunication
   {
+    public ChatHub()
+    {
+
+    }
     public Task Connect(string userName, string password)
     {
       // TODO autre exercice
@@ -24,9 +28,9 @@ namespace ChatServer
     }
     public Task SendMessage(ChatMessage message)
     {
-      Clients.All.SendMessage(message);
+      //Clients.All.SendMessage(message);
       // Pour appeler tous sauf l'appelant :
-      //Clients.Others.SendMessage(message);
+      Clients.Others.SendMessage(message);
       return Task.FromResult(0);
     }
   }

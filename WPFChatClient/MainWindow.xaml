@@ -8,9 +8,10 @@
         mc:Ignorable="d"
 		Title="Chat Client Application" Height="420" Width="525">
     <Window.Resources>
+        <Converters:BooleanToLeftOrRightMarginConverter x:Key="BooleanToLeftOrRightMarginConverter"/>
         <Converters:BooleanToColorConverter x:Key="booleanToColorConverter" TrueColor="#FF00C000" FalseColor="#FFC00000"/>
         <DataTemplate x:Key="ChatMessageTemplate">
-            <Border Margin="5 5 5 5" CornerRadius="3" BorderThickness="1" BorderBrush="#FF000080" >
+            <Border Margin="{Binding IsMyMessage, Converter={StaticResource BooleanToLeftOrRightMarginConverter}}" CornerRadius="3" BorderThickness="1" BorderBrush="#FF000080" >
                 <Grid Height="60">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="100"/>

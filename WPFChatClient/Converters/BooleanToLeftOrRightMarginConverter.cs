@@ -4,27 +4,26 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Data;
 using System.Windows.Media;
 
 namespace WPFChatClient.Converters
 {
-  public class BooleanToColorConverter : IValueConverter
+  public class BooleanToLeftOrRightMarginConverter : IValueConverter
   {
-    public Brush TrueColor { get; set; } = new SolidColorBrush(Color.FromArgb(255, 128, 128, 0));
-    public Brush FalseColor { get; set; } = new SolidColorBrush(Color.FromArgb(255, 0, 0, 255));
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
       try
       {
         bool bValue = (bool)value;
-        return bValue ? TrueColor : FalseColor;
+        if (bValue) return new Thickness(30, 5, 5, 0);
       }
       catch (Exception)
       {
         System.Diagnostics.Debug.WriteLine("Error in conversion");
       }
-      return TrueColor;
+      return  new Thickness(5, 5, 30, 0);
     }
 
     public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
