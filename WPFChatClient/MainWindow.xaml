@@ -6,26 +6,28 @@
         xmlns:local="clr-namespace:WPFChatClient"
         xmlns:Converters="clr-namespace:WPFChatClient.Converters" x:Class="WPFChatClient.MainWindow"
         mc:Ignorable="d"
-		Title="Chat Client Application" Height="372" Width="525">
+		Title="Chat Client Application" Height="420" Width="525">
     <Window.Resources>
         <Converters:BooleanToColorConverter x:Key="booleanToColorConverter" TrueColor="#FF00C000" FalseColor="#FFC00000"/>
         <DataTemplate x:Key="ChatMessageTemplate">
-            <Grid Height="60">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="100"/>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="30"/>
-                    <RowDefinition Height="50"/>
-                </Grid.RowDefinitions>
-                <TextBlock Grid.Column="0" Margin="3" FontSize="16" FontWeight="Bold" 
-                                   TextWrapping="Wrap" Text="{Binding Speaker}" />
-                <TextBlock Grid.Column="1" Margin="3" 
-                                   TextWrapping="Wrap" Text="{Binding EmissionDate, StringFormat=HH:mm:ss}" HorizontalAlignment="Right"/>
-                <TextBlock Grid.ColumnSpan="2" Grid.Row="1" Margin="3" 
-                                   TextWrapping="Wrap" Text="{Binding Content}" />
-            </Grid>
+            <Border Margin="5 5 5 5" CornerRadius="3" BorderThickness="1" BorderBrush="#FF000080" >
+                <Grid Height="60">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="100"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="50"/>
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.Column="0" Margin="3" FontSize="16" FontWeight="Bold" 
+                                       TextWrapping="Wrap" Text="{Binding Speaker}" />
+                    <TextBlock Grid.Column="1" Margin="3" 
+                                       TextWrapping="Wrap" Text="{Binding EmissionDate, StringFormat=HH:mm:ss}" HorizontalAlignment="Right"/>
+                    <TextBlock Grid.ColumnSpan="2" Grid.Row="1" Margin="3" 
+                                       TextWrapping="Wrap" Text="{Binding Content}" />
+                </Grid>
+            </Border>
         </DataTemplate>
         <Style TargetType="{x:Type Button}">
             <Setter Property="Margin" Value="3" />
@@ -91,7 +93,6 @@
                             <StackPanel Grid.ColumnSpan="2" Margin="3,3,20,3" Orientation="Horizontal" Grid.Row="4">
                                 <Button Content="_Connect" Command="{Binding ConnectCmd}" />
                                 <Button Content="_Disconnect" Command="{Binding DisconnectCmd}" />
-                                <Button Content="_Cancel" Command="{Binding CancelConnectCmd}" />
                             </StackPanel>
                         </Grid>
                     </Border>
