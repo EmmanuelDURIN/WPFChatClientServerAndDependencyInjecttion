@@ -26,6 +26,7 @@ namespace SignalRChatClient
       // Obtention du CookieContainer avec les cookies d'authentification :
       CookieContainer cookieContainer = await authenticator.Login(userName: userName, password: password);
       HubConnection hubConnection = new HubConnection(baseUrl);
+      // propagation des cookies d’authentification par websoket
       hubConnection.CookieContainer = cookieContainer;
       hubProxy = hubConnection.CreateHubProxy("ChatHub");
 
