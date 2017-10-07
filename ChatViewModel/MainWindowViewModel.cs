@@ -40,8 +40,8 @@ namespace ChatViewModel
       DisconnectCmd = new RelayCommand(execute: Disconnect, canExecute: o => !AnyCommandRunning && IsConnected);
       SendMessageCmd = new RelayCommand(execute: SendMessage, canExecute: o => !AnyCommandRunning && !String.IsNullOrWhiteSpace(MessageToSend.Content) && IsConnected);
 
-      User.Name = "X";
-      User.Password = "Y";
+      User.Name = "emmanueldurin@gmail.com";
+      User.Password = "Pa$$w0rd";
       User.PropertyChanged += (o, args) =>
       {
         if (args.PropertyName == nameof(User.Name) || args.PropertyName == nameof(User.Password))
@@ -141,7 +141,6 @@ namespace ChatViewModel
     {
       get { return !isConnected; }
     }
-
     public IClientChatCommunication ChatCommunication
     {
       get => chatCommunication;
