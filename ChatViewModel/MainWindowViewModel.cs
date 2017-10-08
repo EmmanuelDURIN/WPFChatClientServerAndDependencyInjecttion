@@ -32,7 +32,14 @@ namespace ChatViewModel
 
     public MainWindowViewModel(IClientChatCommunication chatCommunication)
     {
-      uiTaskScheduler = TaskScheduler.FromCurrentSynchronizationContext();
+      try
+      {
+        uiTaskScheduler = TaskScheduler.FromCurrentSynchronizationContext();
+      }
+      catch (Exception)
+      {
+        System.Diagnostics.Debug.WriteLine("Couldn't get uiTaskScheduler");
+      }
       // Code préexistant
       this.ChatCommunication = chatCommunication;
 
@@ -154,7 +161,7 @@ namespace ChatViewModel
           Task.Factory.StartNew(state =>
           {
             messages.Insert(0,
-              new ChatMessageViewModel(msg, isMyMessage : false)
+              new ChatMessageViewModel(msg, isMyMessage: false)
               );
           },
           state: null,
@@ -169,12 +176,16 @@ namespace ChatViewModel
       IsSending = true;
       MessageToSend.EmissionDate = DateTime.Now;
       MessageToSend.Speaker = User.Name;
-
-      messages.Insert(0, new ChatMessageViewModel(MessageToSend, isMyMessage : true));
-
-      await chatCommunication.SendMessage(MessageToSend);
+      try
+      {
+        await chatCommunication.SendMessage(MessageToSend);
+        messages.Insert(0, new ChatMessageViewModel(MessageToSend, isMyMessage: true));
+      }
+      finally
+      {
+        IsSending = false;
+      }
       MessageToSend.Content = "";
-      IsSending = false;
     }
     private async void Connect(object obj)
     {
