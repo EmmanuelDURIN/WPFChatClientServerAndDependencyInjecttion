@@ -5,8 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WPFChatClient"
         xmlns:Converters="clr-namespace:WPFChatClient.Converters" x:Class="WPFChatClient.MainWindow"
+        xmlns:regions="clr-namespace:Microsoft.Practices.Prism.Regions;assembly=Microsoft.Practices.Prism.Composition"
         mc:Ignorable="d"
-		Title="Chat Client Application" Height="420" Width="525">
+		Title="Chat Client Application" Height="620" Width="525">
     <Window.Resources>
         <Converters:BooleanToLeftOrRightMarginConverter x:Key="BooleanToLeftOrRightMarginConverter"/>
         <Converters:BooleanToColorConverter x:Key="booleanToColorConverter" TrueColor="#FF00C000" FalseColor="#FFC00000"/>
@@ -67,7 +68,7 @@
                               ItemTemplate="{DynamicResource ChatMessageTemplate}" ItemsSource="{Binding Messages}" />
             </ScrollViewer>
             <ScrollViewer VerticalScrollBarVisibility="Auto" Margin="2,5,5,5" Grid.Column="1">
-                <ItemsControl x:Name="itemscontrolPanels" Grid.Column="1">
+                <ItemsControl x:Name="itemscontrolPanels" Grid.Column="1" regions:RegionManager.RegionName="ToolsRegion">
                     <Border x:Name="borderUser" Style="{DynamicResource itemBorderBrush}"  >
                         <Grid>
                             <Grid.ColumnDefinitions>

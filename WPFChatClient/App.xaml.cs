@@ -18,5 +18,11 @@ namespace WPFChatClient
     {
       log4net.Config.XmlConfigurator.Configure(new FileInfo("log4net.config"));
     }
+    protected override void OnStartup(StartupEventArgs e)
+    {
+      base.OnStartup(e);
+      AutofacChatBootstrapper bootstrapper = new AutofacChatBootstrapper();
+      bootstrapper.Run();
+    }
   }
 }

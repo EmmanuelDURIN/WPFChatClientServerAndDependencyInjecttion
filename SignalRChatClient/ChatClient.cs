@@ -20,7 +20,10 @@ namespace SignalRChatClient
     private IHubProxy hubProxy;
     private Authenticator authenticator = new Authenticator (baseUrl);
     public Action<ChatMessage> MessageReceived { get; set; }
+    public ChatClient()
+    {
 
+    }
     public async Task Connect(string userName, string password)
     {
       // Obtention du CookieContainer avec les cookies d'authentification :
@@ -35,7 +38,6 @@ namespace SignalRChatClient
       await hubConnection.Start();
       await hubProxy.Invoke(nameof(IChatCommunication.Connect), userName, password);
     }
-
     private void OnSendMessage(ChatMessage message)
     {
       if (MessageReceived != null)
@@ -47,7 +49,7 @@ namespace SignalRChatClient
       await hubProxy.Invoke(nameof(IChatCommunication.Disconnect));
       await authenticator.Logoff();
       // No way !
-      //hubConnection.CookieContainer = new CookieContainer();
+      // hubConnection.CookieContainer = new CookieContainer();
       hubProxy = null;
     }
     public async Task SendMessage(ChatMessage message)
