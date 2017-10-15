@@ -13,11 +13,6 @@ namespace WPFChatClient
     public MainWindow(MainWindowViewModel viewModel)
     {
       InitializeComponent();
-
-      //IRegionManager regionManager = ServiceLocator.Current.GetInstance<IRegionManager>();
-      //RegionManager.SetRegionManager(itemscontrolPanels, regionManager);
-      //RegionManager.SetRegionName(this.itemscontrolPanels, "ToolsRegion");
-
       this.viewModel = viewModel;
       DataContext = viewModel;
     }

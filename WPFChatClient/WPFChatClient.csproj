@@ -47,10 +47,6 @@
     <Reference Include="Microsoft.Practices.Prism.Interactivity, Version=5.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Prism.Interactivity.5.0.0\lib\NET45\Microsoft.Practices.Prism.Interactivity.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Practices.Prism.MefExtensions, Version=5.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\questions\Microsoft.Practices.Prism.MefExtensions.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.Practices.Prism.Mvvm, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Prism.Mvvm.1.0.0\lib\net45\Microsoft.Practices.Prism.Mvvm.dll</HintPath>
     </Reference>
@@ -108,7 +104,6 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="AutofacChatBootstrapper.cs" />
-    <Compile Include="MefChatBootStrapper.cs" />
     <Compile Include="Converters\BooleanToLeftOrRightMarginConverter.cs" />
     <Compile Include="Converters\BooleanToColorConverter.cs" />
     <Page Include="MainWindow.xaml">

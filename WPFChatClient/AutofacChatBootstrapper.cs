@@ -31,6 +31,8 @@ namespace WPFChatClient
       // Register prism module
       Type typeConnectedPeopleModule = typeof(PrismConnectedPeopleModule);
       ModuleCatalog.AddModule(new ModuleInfo(typeConnectedPeopleModule.Name, typeConnectedPeopleModule.AssemblyQualifiedName));
+      // TODO
+      //ModuleCatalog = new DirectoryModuleCatalog() { ModulePath = Environment.CurrentDirectory};
     }
     protected override DependencyObject CreateShell()
     {

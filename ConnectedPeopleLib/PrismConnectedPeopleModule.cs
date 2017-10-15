@@ -8,15 +8,15 @@ using System.ComponentModel.Composition;
 namespace ConnectedPeopleLib
 {
   [ModuleExport(typeof(PrismConnectedPeopleModule))]
+  //[Module]
   public class PrismConnectedPeopleModule : IModule
   {
+    private IRegionManager regionManager;
     [ImportingConstructor]
     public PrismConnectedPeopleModule(IRegionManager regionManager)
     {
       this.regionManager = regionManager;
     }
-    private IRegionManager regionManager;
-
     public void Initialize()
     {
       regionManager.RegisterViewWithRegion("ToolsRegion", typeof(ConnectedPeopleUserControl));
