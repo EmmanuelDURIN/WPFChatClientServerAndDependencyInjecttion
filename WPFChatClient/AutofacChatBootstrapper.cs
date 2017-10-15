@@ -17,7 +17,6 @@ namespace WPFChatClient
     {
       base.ConfigureContainer(builder);
       builder.RegisterType<MainWindow>();
-      //builder.RegisterType<MainWindow>().UsingConstructor(signature : new[] { typeof(MainWindowViewModel) });
       builder.RegisterInstance(new ChatClient())
           .As<IClientChatCommunication>();
       builder.RegisterType<MainWindowViewModel>();

@@ -26,7 +26,6 @@ namespace ConnectedPeopleLib
   public partial class ConnectedPeopleUserControl : UserControl
   {
     private ConnectedPeopleViewModel viewModel;
-    [ImportingConstructor()]
     public ConnectedPeopleUserControl(ConnectedPeopleViewModel viewModel)
     {
       InitializeComponent();

@@ -12,7 +12,6 @@ namespace ConnectedPeopleLib
   public class PrismConnectedPeopleModule : IModule
   {
     private IRegionManager regionManager;
-    [ImportingConstructor]
     public PrismConnectedPeopleModule(IRegionManager regionManager)
     {
       this.regionManager = regionManager;
