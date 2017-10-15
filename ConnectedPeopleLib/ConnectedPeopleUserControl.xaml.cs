@@ -17,12 +17,6 @@ using System.Windows.Shapes;
 
 namespace ConnectedPeopleLib
 {
-  /// <summary>
-  /// Logique d'interaction pour ConnectedPeopleUserControl.xaml
-  /// </summary>
-  [Export("ConnectedPeopleUserControl")]
-  [PartCreationPolicy(CreationPolicy.NonShared)]
-  [RegionMemberLifetime(KeepAlive = false)]
   public partial class ConnectedPeopleUserControl : UserControl
   {
     private ConnectedPeopleViewModel viewModel;

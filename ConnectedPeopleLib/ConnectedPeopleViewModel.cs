@@ -5,7 +5,6 @@ using System.ComponentModel.Composition;
 
 namespace ConnectedPeopleLib
 {
-  [Export]
   public class ConnectedPeopleViewModel
   {
     private IClientChatCommunication chatCommunication;
