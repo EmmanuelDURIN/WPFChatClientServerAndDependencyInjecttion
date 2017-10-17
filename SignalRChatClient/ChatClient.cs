@@ -19,16 +19,17 @@ namespace SignalRChatClient
    // private HubConnection hubConnection;
     private IHubProxy hubProxy;
     private Authenticator authenticator = new Authenticator (baseUrl);
+    private HubConnection hubConnection;
     public Action<ChatMessage> MessageReceived { get; set; }
+    public event Action<StateChange> StateChanged;
     public ChatClient()
     {
-
     }
     public async Task Connect(string userName, string password)
     {
       // Obtention du CookieContainer avec les cookies d'authentification :
       CookieContainer cookieContainer = await authenticator.Login(userName: userName, password: password);
-      HubConnection hubConnection = new HubConnection(baseUrl);
+      hubConnection = new HubConnection(baseUrl);
       // propagation des cookies d’authentification par websoket
       hubConnection.CookieContainer = cookieContainer;
       hubProxy = hubConnection.CreateHubProxy("ChatHub");
@@ -37,6 +38,16 @@ namespace SignalRChatClient
       hubProxy.On<ChatMessage>("SendMessage", OnSendMessage);
       await hubConnection.Start();
       await hubProxy.Invoke(nameof(IChatCommunication.Connect), userName, password);
+      hubConnection.StateChanged += HubConnectionStateChanged;
+      System.Diagnostics.Debug.WriteLine($"HubConnection.State : {hubConnection.State}");
+      HubConnectionStateChanged(new StateChange (ConnectionState.Disconnected, hubConnection.State) );
+    }
+    private void HubConnectionStateChanged(StateChange state)
+    {
+      if (StateChanged != null)
+      {
+        StateChanged(state);
+      }
     }
     private void OnSendMessage(ChatMessage message)
     {
@@ -48,6 +59,8 @@ namespace SignalRChatClient
     {
       await hubProxy.Invoke(nameof(IChatCommunication.Disconnect));
       await authenticator.Logoff();
+      hubConnection.Stop();
+      hubConnection = null;
       // No way !
       // hubConnection.CookieContainer = new CookieContainer();
       hubProxy = null;
@@ -55,6 +68,10 @@ namespace SignalRChatClient
     public async Task SendMessage(ChatMessage message)
     {
       await hubProxy.Invoke(nameof(IChatCommunication.SendMessage), message);
+    }
+    public async Task<List<User>> GetConnectedUsers()
+    {
+      return await hubProxy.Invoke<List<User>>(nameof(IChatCommunication.GetConnectedUsers));
     }
   }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using ChatBusinessObjects;
 using System.Threading.Tasks;
+using Microsoft.AspNet.SignalR.Client;
 
 namespace ChatBusinessLogic
 {
@@ -8,5 +9,6 @@ namespace ChatBusinessLogic
   public interface IClientChatCommunication : IChatCommunication
   {
     Action<ChatMessage> MessageReceived { get; set; }
+    event Action<StateChange> StateChanged;
   }
 }

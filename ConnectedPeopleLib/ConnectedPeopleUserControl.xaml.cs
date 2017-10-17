@@ -24,6 +24,18 @@ namespace ConnectedPeopleLib
     {
       InitializeComponent();
       this.DataContext = this.viewModel = viewModel;
+      this.Loaded += ConnectedPeopleUserControlLoaded;
+      this.Unloaded += ConnectedPeopleUserControlUnloaded; ;
+    }
+
+    private void ConnectedPeopleUserControlUnloaded(object sender, RoutedEventArgs e)
+    {
+      viewModel.Close();
+    }
+
+    private void ConnectedPeopleUserControlLoaded(object sender, RoutedEventArgs e)
+    {
+      viewModel.Init();
     }
   }
 }

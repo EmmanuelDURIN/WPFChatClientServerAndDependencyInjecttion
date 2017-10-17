@@ -2,6 +2,8 @@
 using ChatBusinessObjects;
 using Microsoft.AspNet.SignalR;
 using System.Threading.Tasks;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace ChatServer
 {
@@ -25,6 +27,16 @@ namespace ChatServer
       // Pour appeler tous sauf l'appelant :
       Clients.Others.SendMessage(message);
       return Task.FromResult(0);
+    }
+    [Authorize]
+    public Task<List<User>> GetConnectedUsers()
+    {
+      return Task.FromResult<List<User>>(
+      Enumerable.Range(1, 4)
+        .Select(i =>
+         new User { Name = "User" + i, Password = "Password" + i }
+      )
+      .ToList());
     }
   }
 }

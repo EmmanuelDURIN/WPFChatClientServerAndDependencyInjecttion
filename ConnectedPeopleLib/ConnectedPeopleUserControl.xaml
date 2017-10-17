@@ -7,7 +7,17 @@
              mc:Ignorable="d" 
              Height="100"
              d:DesignHeight="300" d:DesignWidth="300">
-    <Grid Background="Green">
-            
+    <Grid Background="Gray" >
+        <ItemsControl Name="itemsControlConnectedPeople" ItemsSource="{Binding ConnectedPeople}" Margin="3" Background="White">
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <Grid>
+                        <TextBlock  >
+                            <Run Text="{Binding Name}"/>
+                        </TextBlock>
+                    </Grid>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
     </Grid>
 </UserControl>
