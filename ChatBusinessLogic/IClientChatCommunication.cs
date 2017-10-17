@@ -5,10 +5,11 @@ using Microsoft.AspNet.SignalR.Client;
 
 namespace ChatBusinessLogic
 {
-  // Même interface que IChatCommunication sauf que émission d'événements
-  public interface IClientChatCommunication : IChatCommunication
+  // Définit ce que le serveur peut dire au client
+  public interface IClientChatCommunication 
   {
-    Action<ChatMessage> MessageReceived { get; set; }
-    event Action<StateChange> StateChanged;
+    Task BroadcastMessage(ChatMessage message);
+    void UserConnected(string userName);
+    void UserDisconnected(string userName);
   }
 }

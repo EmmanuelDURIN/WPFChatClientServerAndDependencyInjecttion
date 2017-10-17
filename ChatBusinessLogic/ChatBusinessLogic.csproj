@@ -49,6 +49,8 @@
   <ItemGroup>
     <Compile Include="IClientChatCommunication.cs" />
     <Compile Include="IChatCommunication.cs" />
+    <Compile Include="INotifyingClientChatCommunication .cs" />
+    <Compile Include="IServerChatCommunication.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

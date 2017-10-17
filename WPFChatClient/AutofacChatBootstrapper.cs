@@ -18,7 +18,7 @@ namespace WPFChatClient
       base.ConfigureContainer(builder);
       builder.RegisterType<MainWindow>();
       builder.RegisterInstance(new ChatClient())
-          .As<IClientChatCommunication>();
+          .As<INotifyingClientChatCommunication>();
       builder.RegisterType<MainWindowViewModel>();
       builder.RegisterModule<LoggingModule>();
       // Register autofac module

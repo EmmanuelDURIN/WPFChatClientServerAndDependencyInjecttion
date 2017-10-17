@@ -5,6 +5,8 @@ using System.Collections.Generic;
 
 namespace ChatBusinessLogic
 {
+  // Ce que le client peut dire
+  // ce que le serveur implémente
   public interface IChatCommunication
   {
     Task Connect(string userName, string password);

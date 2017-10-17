@@ -13,18 +13,17 @@ using HtmlAgilityPack;
 
 namespace SignalRChatClient
 {
-  public class ChatClient : IClientChatCommunication
+  public class ChatClient : INotifyingClientChatCommunication
   {
     const string baseUrl = "http://localhost:12983/";
-   // private HubConnection hubConnection;
     private IHubProxy hubProxy;
     private Authenticator authenticator = new Authenticator (baseUrl);
     private HubConnection hubConnection;
     public Action<ChatMessage> MessageReceived { get; set; }
     public event Action<StateChange> StateChanged;
-    public ChatClient()
-    {
-    }
+    public event Action<string> UserConnected;
+    public event Action<string> UserDisconnected;
+
     public async Task Connect(string userName, string password)
     {
       // Obtention du CookieContainer avec les cookies d'authentification :
@@ -35,13 +34,26 @@ namespace SignalRChatClient
       hubProxy = hubConnection.CreateHubProxy("ChatHub");
 
       ServicePointManager.DefaultConnectionLimit = 10;
-      hubProxy.On<ChatMessage>("SendMessage", OnSendMessage);
+      hubProxy.On<ChatMessage>(nameof(IClientChatCommunication.BroadcastMessage), OnReceiveMessage);
+      hubProxy.On<String>(nameof(IClientChatCommunication.UserConnected), OnUserConnected);
+      hubProxy.On<String>(nameof(IClientChatCommunication.UserDisconnected), OnUserDisconnected);
       await hubConnection.Start();
       await hubProxy.Invoke(nameof(IChatCommunication.Connect), userName, password);
       hubConnection.StateChanged += HubConnectionStateChanged;
       System.Diagnostics.Debug.WriteLine($"HubConnection.State : {hubConnection.State}");
       HubConnectionStateChanged(new StateChange (ConnectionState.Disconnected, hubConnection.State) );
     }
+
+    private void OnUserDisconnected(string userName)
+    {
+      UserDisconnected?.Invoke(userName);
+    }
+
+    private void OnUserConnected(string userName)
+    {
+      UserConnected?.Invoke(userName);
+    }
+
     private void HubConnectionStateChanged(StateChange state)
     {
       if (StateChanged != null)
@@ -49,10 +61,9 @@ namespace SignalRChatClient
         StateChanged(state);
       }
     }
-    private void OnSendMessage(ChatMessage message)
+    private void OnReceiveMessage(ChatMessage message)
     {
-      if (MessageReceived != null)
-        MessageReceived(message);
+      MessageReceived?.Invoke(message);
       System.Diagnostics.Debug.WriteLine("msg received");
     }
     public async Task Disconnect()

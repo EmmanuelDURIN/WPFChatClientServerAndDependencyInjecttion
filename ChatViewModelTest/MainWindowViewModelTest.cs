@@ -11,14 +11,14 @@ namespace ChatViewModelTest
   [TestClass]
   public class MainWindowViewModelTest
   {
-    private Mock<IClientChatCommunication> mockObject;
-    private IClientChatCommunication chatCommunication;
+    private Mock<INotifyingClientChatCommunication> mockObject;
+    private INotifyingClientChatCommunication chatCommunication;
     private MainWindowViewModel viewModel;
 
     [TestInitialize]
     public void Setup()
     {
-      mockObject = new Mock<IClientChatCommunication>();
+      mockObject = new Mock<INotifyingClientChatCommunication>();
       chatCommunication = mockObject.Object;
       viewModel = new MainWindowViewModel(chatCommunication);
     }

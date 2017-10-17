@@ -18,7 +18,7 @@ namespace ChatViewModel
   {
     private User user = new User();
     private ChatMessage messageToSend = new ChatMessage();
-    private IClientChatCommunication chatCommunication = null;
+    private INotifyingClientChatCommunication chatCommunication = null;
     private bool isSending;
     private bool isConnecting;
     private bool isConnected;
@@ -30,7 +30,7 @@ namespace ChatViewModel
     public RelayCommand DisconnectCmd { get; set; }
     public RelayCommand SendMessageCmd { get; set; }
 
-    public MainWindowViewModel(IClientChatCommunication chatCommunication)
+    public MainWindowViewModel(INotifyingClientChatCommunication chatCommunication)
     {
       try
       {
@@ -40,7 +40,6 @@ namespace ChatViewModel
       {
         System.Diagnostics.Debug.WriteLine("Couldn't get uiTaskScheduler");
       }
-      // Code préexistant
       this.ChatCommunication = chatCommunication;
 
       ConnectCmd = new RelayCommand(execute: Connect, canExecute: o => !AnyCommandRunning && !IsConnected && !String.IsNullOrWhiteSpace(User.Name) && !String.IsNullOrWhiteSpace(User.Password));
@@ -148,7 +147,7 @@ namespace ChatViewModel
     {
       get { return !isConnected; }
     }
-    public IClientChatCommunication ChatCommunication
+    public INotifyingClientChatCommunication ChatCommunication
     {
       get => chatCommunication;
       set

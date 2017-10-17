@@ -9,12 +9,8 @@ using Microsoft.AspNet.SignalR.Client;
 
 namespace ChatBusinessLogic
 {
-  public class NullChatCommunication : IClientChatCommunication
+  public class NullChatCommunication : IChatCommunication
   {
-    public Action<ChatMessage> MessageReceived { get; set; }
-
-    public event Action<StateChange> StateChanged;
-
     public async Task Connect(string userName, string password)
     {
       Task task = Task.Delay(2000);
@@ -29,9 +25,9 @@ namespace ChatBusinessLogic
     public Task<List<User>> GetConnectedUsers()
     {
       return Task.FromResult<List<User>>(
-      Enumerable.Range(1,3)
-        .Select( i => 
-          new User { Name = "User"+i , Password="Password"+i }
+      Enumerable.Range(1, 3)
+        .Select(i =>
+         new User { Name = "User" + i, Password = "Password" + i }
       )
       .ToList());
     }
