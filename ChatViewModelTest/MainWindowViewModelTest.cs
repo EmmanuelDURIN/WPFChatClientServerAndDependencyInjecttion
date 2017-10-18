@@ -73,5 +73,26 @@ namespace ChatViewModelTest
         m => m.SendMessage(
           It.IsAny<ChatMessage>()));
     }
+    [TestMethod]
+    public void TestConnectionFailureShouldNotCauseException()
+    {
+      mockObject = new Mock<IClientChatCommunication>();
+      mockObject.Setup(m => m.Connect(It.IsAny<String>(), It.IsAny<String>())).Throws(new Exception("Connection failed"));
+      chatCommunication = mockObject.Object;
+      viewModel = new MainWindowViewModel(chatCommunication);
+
+      try
+      {
+        viewModel.ConnectCmd.Execute(null);
+        viewModel.SendMessageCmd.Execute(null);
+      }
+      catch (Exception)
+      {
+        Assert.Fail("on ne devrait pas arriver là à cause d'une exception");
+      }
+      Assert.IsFalse(viewModel.IsConnected);
+
+      mockObject.Verify(m => m.Connect(It.IsAny<String>(), It.IsAny<String>()));
+    }
   }
 }
