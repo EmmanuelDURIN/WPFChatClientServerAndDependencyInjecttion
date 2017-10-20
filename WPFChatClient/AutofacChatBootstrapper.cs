@@ -40,7 +40,8 @@ namespace WPFChatClient
     protected override void InitializeShell()
     {
       base.InitializeShell();
-
+      // possibilité d'injecter le ViewModel si MainWindow pas construite par Autofac
+      //this.Container.InjectProperties<DependencyObject>(this.Shell);
       Application.Current.MainWindow = (MainWindow)this.Shell;
       Application.Current.MainWindow.Show();
     }

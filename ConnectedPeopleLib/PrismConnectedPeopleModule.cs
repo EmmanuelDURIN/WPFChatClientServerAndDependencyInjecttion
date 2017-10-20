@@ -8,7 +8,6 @@ using System.ComponentModel.Composition;
 namespace ConnectedPeopleLib
 {
   [ModuleExport(typeof(PrismConnectedPeopleModule))]
-  //[Module]
   public class PrismConnectedPeopleModule : IModule
   {
     private IRegionManager regionManager;
