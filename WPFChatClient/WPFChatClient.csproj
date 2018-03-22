@@ -114,6 +114,6 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>cd $(TargetDir)
-copy /Y $(SolutionDir)NullCommunicationLib\$(OutDir)NullCommunicationLib.dll</PostBuildEvent>
+copy /Y "$(SolutionDir)NullCommunicationLib\$(OutDir)NullCommunicationLib.dll"</PostBuildEvent>
   </PropertyGroup>
 </Project>
