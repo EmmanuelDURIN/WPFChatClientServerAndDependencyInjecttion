@@ -108,5 +108,6 @@
             </ScrollViewer>
             <GridSplitter Width="15" Background="#80051080"/>
         </Grid>
+        <TextBlock HorizontalAlignment="Left" Margin="41,10,0,0" TextWrapping="Wrap" Text="Pour se connecter :emmanueldurin@gmail.com Pa$$w0rd" VerticalAlignment="Top"/>
     </Grid>
 </Window>
