@@ -151,7 +151,9 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ChatBusinessLogic\ChatBusinessLogic.csproj">
@@ -181,7 +183,7 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>cd $(OutDir)
+    <PostBuildEvent>cd $(ProjectDir)$(OutDir)
 copy /Y "$(SolutionDir)NullCommunicationLib\$(OutDir)NullCommunicationLib.dll"</PostBuildEvent>
   </PropertyGroup>
 </Project>
