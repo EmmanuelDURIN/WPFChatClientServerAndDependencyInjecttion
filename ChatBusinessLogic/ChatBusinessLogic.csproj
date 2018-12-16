@@ -42,6 +42,7 @@
   <ItemGroup>
     <Compile Include="IClientChatCommunication.cs" />
     <Compile Include="IChatCommunication.cs" />
+    <Compile Include="InvalidLoginException.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

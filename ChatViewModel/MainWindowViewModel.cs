@@ -5,6 +5,7 @@ using Model;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
@@ -187,6 +188,10 @@ namespace ChatViewModel
       catch (TaskCanceledException)
       {
         System.Diagnostics.Debug.WriteLine("Cancellation");
+      }
+      catch (InvalidLoginException)
+      {
+        Debug.WriteLine("Invalid login email or password");
       }
       finally
       {
