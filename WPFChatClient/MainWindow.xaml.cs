@@ -13,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Unity;
 
 namespace WPFChatClient
 {
@@ -21,7 +22,8 @@ namespace WPFChatClient
   /// </summary>
   public partial class MainWindow : Window
   {
-    private MainWindowViewModel viewModel = new MainWindowViewModel();
+    // Construction of MainWindowViewmodel and its dependencies by the container
+    private MainWindowViewModel viewModel = WPFContainer.Instance.Resolve<MainWindowViewModel>();
 
     public MainWindow()
     {

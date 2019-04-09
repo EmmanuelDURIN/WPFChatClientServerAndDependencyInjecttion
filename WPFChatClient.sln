@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChatBusinessObjects", "Chat
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChatViewModel", "ChatViewModel\ChatViewModel.csproj", "{5F75323C-427D-4166-BAC2-9522174BA75D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NullCommunicationLib", "NullCommunicationLib\NullCommunicationLib.csproj", "{D1325291-2FB4-4DF4-872B-1DA86DBD4AEC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{5F75323C-427D-4166-BAC2-9522174BA75D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5F75323C-427D-4166-BAC2-9522174BA75D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5F75323C-427D-4166-BAC2-9522174BA75D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D1325291-2FB4-4DF4-872B-1DA86DBD4AEC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D1325291-2FB4-4DF4-872B-1DA86DBD4AEC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D1325291-2FB4-4DF4-872B-1DA86DBD4AEC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D1325291-2FB4-4DF4-872B-1DA86DBD4AEC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

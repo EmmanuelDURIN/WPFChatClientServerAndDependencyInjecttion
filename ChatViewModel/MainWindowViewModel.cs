@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Unity;
 using ViewModel.Commands;
 
 namespace ChatViewModel
@@ -17,11 +18,17 @@ namespace ChatViewModel
     private ObservableCollection<ChatMessage> messages = new ObservableCollection<ChatMessage>();
     private User user = new User();
     private ChatMessage messageToSend = new ChatMessage();
-    private IChatCommunication chatCommunication = new NullChatCommunication();
     private bool isSending;
     private bool isConnecting;
     private bool isConnected;
     private CancellationTokenSource connectionCts;
+    private IChatCommunication chatCommunication;
+    //[Dependency]
+    public IChatCommunication ChatCommunication
+    {
+      get => chatCommunication;
+      set => chatCommunication = value;
+    }
 
     public RelayCommand ConnectCmd { get; set; }
     public RelayCommand DisconnectCmd { get; set; }
@@ -118,8 +125,12 @@ namespace ChatViewModel
     {
       get { return !isConnected; }
     }
-    public MainWindowViewModel()
+
+
+    [InjectionConstructor()]
+    public MainWindowViewModel(IChatCommunication chatCommunication)
     {
+      this.chatCommunication = chatCommunication;
       LoadDummyData();
 
       ConnectCmd = new RelayCommand(execute: Connect, canExecute: o => !AnyCommandRunning && !IsConnected && !String.IsNullOrWhiteSpace(User.Name) && !String.IsNullOrWhiteSpace(User.Password));
