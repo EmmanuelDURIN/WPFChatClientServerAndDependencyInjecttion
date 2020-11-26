@@ -17,7 +17,9 @@ namespace ChatViewModel
     private ObservableCollection<ChatMessage> messages = new ObservableCollection<ChatMessage>();
     private User user = new User();
     private ChatMessage messageToSend = new ChatMessage();
-    private IChatCommunication chatCommunication = new NullChatCommunication();
+    // On n'instanci plus le chatCommunication
+    // C'est le Fx de Dependency Injection qui le fait
+    private IChatCommunication chatCommunication;// = new NullChatCommunication();
     private bool isSending;
     private bool isConnecting;
     private bool isConnected;
@@ -118,8 +120,11 @@ namespace ChatViewModel
     {
       get { return !isConnected; }
     }
-    public MainWindowViewModel()
+    // C'est le Fx de DI qui appelle le constructeur
+    // et qui injecte la dépendance
+    public MainWindowViewModel(IChatCommunication chatCommunication)
     {
+      this.chatCommunication = chatCommunication;
       LoadDummyData();
 
       ConnectCmd = new RelayCommand(execute: Connect, canExecute: o => !AnyCommandRunning && !IsConnected && !String.IsNullOrWhiteSpace(User.Name) && !String.IsNullOrWhiteSpace(User.Password));

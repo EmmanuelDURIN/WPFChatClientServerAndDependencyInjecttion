@@ -1,4 +1,5 @@
-﻿using ChatViewModel;
+﻿using Autofac;
+using ChatViewModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,6 +14,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using WpfChatClient;
 
 namespace WPFChatClient
 {
@@ -21,11 +23,17 @@ namespace WPFChatClient
   /// </summary>
   public partial class MainWindow : Window
   {
-    private MainWindowViewModel viewModel = new MainWindowViewModel();
+    private MainWindowViewModel viewModel;
 
     public MainWindow()
     {
       InitializeComponent();
+      // on n'instancie plus le ViewModel nous même
+      // C'est le Fx de DI qui s'en charge
+      // C'est lui qui injecte les dépendances
+      // Donc quand on voudra exécuter dans un contexte d'exécution différent (ex : test )
+      // on pourra avoir d'autres dépendances ( ex : remplacer la vraie classe de communication par un stub(bouchon)/mock )
+      viewModel = WpfContainer.CreateContainer().Resolve<MainWindowViewModel>();
       DataContext = viewModel;
     }
 
