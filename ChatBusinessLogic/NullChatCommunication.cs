@@ -10,6 +10,7 @@ namespace ChatBusinessLogic
 {
   public class NullChatCommunication : IChatCommunication
   {
+#pragma warning disable CS0067
     public event Action<ChatMessage> MessageReceived;
     public async Task Connect(string userName, string password, CancellationToken token)
     {
